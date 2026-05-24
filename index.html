@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Template API Docs</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+    <style>
+      body { margin: 0; padding: 0; }
+      h1, h2, h3 {
+        margin-top: 12px !important;
+        margin-bottom: 4px !important;
+      }
+      p {
+        margin-top: 4px !important;
+        margin-bottom: 4px !important;
+      }
+    </style>
+  </head>
+  <body>
+    <redoc
+      spec-url='openapi.json'
+      hide-download-button
+      expand-responses="200"
+      expand-single-schema-field
+      json-sample-expand-level="3"
+      path-in-middle-panel
+    ></redoc>
+    <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+  </body>
+</html>
