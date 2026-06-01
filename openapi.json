@@ -591,6 +591,7 @@
                     "value": {
                       "content": [
                         {
+                          "id": 1,
                           "nomeSocial": "Maria Oliveira",
                           "nome": "Marcos Antônio Oliveira",
                           "tipoDocumento": "CPF",
@@ -609,6 +610,7 @@
                           }
                         },
                         {
+                          "id": 2,
                           "nomeSocial": "Douglas Pereira",
                           "nome": "Jonathan Douglas Pereira",
                           "tipoDocumento": "CPF",
@@ -627,6 +629,7 @@
                           }
                         },
                         {
+                          "id": 3,
                           "nomeSocial": "João Silva",
                           "nome": "João Silva",
                           "tipoDocumento": "CPF",
@@ -645,6 +648,7 @@
                           }
                         },
                         {
+                          "id": 4,
                           "nomeSocial": "Oficina ABC",
                           "nome": "Oficina e Comércio de Peças Automotivas ABC Ltda",
                           "tipoDocumento": "CNPJ",
@@ -1726,6 +1730,7 @@
         "value": {
           "content": [
             {
+              "id": 1,
               "nomeSocial": "Maria Oliveira",
               "nome": "Marcos Antônio Oliveira",
               "tipoDocumento": "CPF",
@@ -1744,6 +1749,7 @@
               }
             },
             {
+              "id": 2,
               "nomeSocial": "Douglas Pereira",
               "nome": "Jonathan Douglas Pereira",
               "tipoDocumento": "CPF",
@@ -1762,6 +1768,7 @@
               }
             },
             {
+              "id": 3,
               "nomeSocial": "João Silva",
               "nome": "João Silva",
               "tipoDocumento": "CPF",
@@ -1780,6 +1787,7 @@
               }
             },
             {
+              "id": 4,
               "nomeSocial": "Oficina ABC",
               "nome": "Oficina e Comércio de Peças Automotivas ABC Ltda",
               "tipoDocumento": "CNPJ",
@@ -1809,6 +1817,7 @@
         "value": {
           "content": [
             {
+              "id": 1,
               "nomeSocial": "Maria Oliveira",
               "nome": "Marcos Antônio Oliveira",
               "tipoDocumento": "CPF",
@@ -1827,6 +1836,7 @@
               }
             },
             {
+              "id": 2,
               "nomeSocial": "Douglas Pereira",
               "nome": "Jonathan Douglas Pereira",
               "tipoDocumento": "CPF",
@@ -1845,6 +1855,7 @@
               }
             },
             {
+              "id": 3,
               "nomeSocial": "João Silva",
               "nome": "João Silva",
               "tipoDocumento": "CPF",
@@ -1863,6 +1874,7 @@
               }
             },
             {
+              "id": 4,
               "nomeSocial": "Oficina ABC",
               "nome": "Oficina e Comércio de Peças Automotivas ABC Ltda",
               "tipoDocumento": "CNPJ",
