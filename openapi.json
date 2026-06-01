@@ -12,14 +12,14 @@
     }
   ],
   "paths": {
-    "/clientes/{clienteId}": {
-      "get": {
+    "/clientes": {
+      "post": {
         "tags": [
           "Clientes"
         ],
-        "summary": "Consultar Cliente",
-        "description": "Endpoint para consulta de cliente por clienteId\n",
-        "operationId": "get/clientes",
+        "summary": "Criar Cliente",
+        "description": "Endpoint para criar um cliente\n",
+        "operationId": "post/clientes",
         "parameters": [
           {
             "name": "x-correlationid",
@@ -31,20 +31,128 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
-          {
-            "name": "clienteId",
-            "in": "path",
-            "description": "Identificador do cliente",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nomeSocial": {
+                    "type": "string",
+                    "description": "Nome pelo qual o cliente deseja ser identificado e tratado no convívio social, ou nome fantasia"
+                  },
+                  "nome": {
+                    "type": "string",
+                    "description": "Nome completo do cliente, ou razão social"
+                  },
+                  "tipoDocumento": {
+                    "type": "string",
+                    "description": "Tipo do documento de identificação ( CPF | CNPJ )",
+                    "enum": [
+                      "CPF",
+                      "CNPJ"
+                    ]
+                  },
+                  "documento": {
+                    "type": "string",
+                    "description": "Número do documento de identificação"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Endereço de e-mail do cliente"
+                  },
+                  "telefone": {
+                    "type": "string",
+                    "description": "Número de telefone para contato"
+                  },
+                  "contatoWhatsApp": {
+                    "type": "boolean",
+                    "description": "Indica preferência por contato via WhatsApp"
+                  },
+                  "endereco": {
+                    "type": "object",
+                    "description": "Endereço residencial do cliente",
+                    "properties": {
+                      "logradouro": {
+                        "type": "string",
+                        "description": "Nome da rua ou avenida"
+                      },
+                      "numero": {
+                        "type": "string",
+                        "description": "Número do imóvel"
+                      },
+                      "complemento": {
+                        "type": "string",
+                        "description": "Complemento do endereço ( Apto, Bloco...)"
+                      },
+                      "bairro": {
+                        "type": "string",
+                        "description": "Bairro do endereço"
+                      },
+                      "cidade": {
+                        "type": "string",
+                        "description": "Cidade do endereço"
+                      },
+                      "uf": {
+                        "type": "string",
+                        "description": "Unidade Federativa (Estado)"
+                      },
+                      "cep": {
+                        "type": "string",
+                        "description": "Código Postal (CEP)"
+                      }
+                    },
+                    "required": [
+                      "logradouro",
+                      "numero",
+                      "bairro",
+                      "cidade",
+                      "uf",
+                      "cep"
+                    ]
+                  }
+                },
+                "required": [
+                  "nome",
+                  "tipoDocumento",
+                  "documento",
+                  "email",
+                  "telefone",
+                  "contatoWhatsApp",
+                  "endereco"
+                ]
+              },
+              "examples": {
+                "CreateClienteRequest": {
+                  "summary": "Exemplo de request para criação de um cliente",
+                  "value": {
+                    "nomeSocial": "Maria Oliveira",
+                    "nome": "Marcos Antônio Oliveira",
+                    "tipoDocumento": "CPF",
+                    "documento": "55563271064",
+                    "email": "maria.oliveira@email.com",
+                    "telefone": "11988887777",
+                    "contatoWhatsApp": false,
+                    "endereco": {
+                      "logradouro": "Avenida Brasil",
+                      "numero": "456",
+                      "complemento": "Casa",
+                      "bairro": "Jardim América",
+                      "cidade": "São Paulo",
+                      "uf": "SP",
+                      "cep": "01432000"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
-            "description": "Responde hello world",
+          "201": {
+            "description": "Cliente criado",
             "content": {
               "application/json": {
                 "schema": {
@@ -52,7 +160,7 @@
                   "properties": {
                     "nomeSocial": {
                       "type": "string",
-                      "description": "Nome pelo qual uma pessoa deseja ser identificada e tratada no convívio social, ou nome fantasia"
+                      "description": "Nome pelo qual o cliente deseja ser identificado e tratado no convívio social, ou nome fantasia"
                     },
                     "nome": {
                       "type": "string",
@@ -119,10 +227,331 @@
                   }
                 },
                 "examples": {
-                  "HelloWorldResponse": {
+                  "CreateClienteResponse": {
                     "summary": "Exemplo de resposta para consulta de um cliente",
                     "value": {
-                      "nomeSocial": "Maria",
+                      "nomeSocial": "Maria Oliveira",
+                      "nome": "Marcos Antônio Oliveira",
+                      "tipoDocumento": "CPF",
+                      "documento": "55563271064",
+                      "email": "maria.oliveira@email.com",
+                      "telefone": "11988887777",
+                      "contatoWhatsApp": false,
+                      "endereco": {
+                        "logradouro": "Avenida Brasil",
+                        "numero": "456",
+                        "complemento": "Casa",
+                        "bairro": "Jardim América",
+                        "cidade": "São Paulo",
+                        "uf": "SP",
+                        "cep": "01432000"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "400": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "401": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "403": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Forbidden"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "405": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Method Not Allowed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "503": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Service Unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "timeoutInMillis": 14000,
+          "type": "http_proxy",
+          "httpMethod": "POST",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/clientes",
+          "responses": {
+            "default": {
+              "statusCode": "503"
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "connectionType": "VPC_LINK",
+          "connectionId": "txypyt",
+          "requestParameters": {
+            "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
+          }
+        },
+        "x-amazon-apigateway-request-validator": "params-only"
+      }
+    },
+    "/clientes/{clienteId}": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Consultar Cliente",
+        "description": "Endpoint para consulta de cliente por clienteId\n",
+        "operationId": "get/clientes/{clienteId}",
+        "parameters": [
+          {
+            "name": "x-correlationid",
+            "in": "header",
+            "description": "Código para identificar requisição",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "clienteId",
+            "in": "path",
+            "description": "Identificador do cliente",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente consultado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nomeSocial": {
+                      "type": "string",
+                      "description": "Nome pelo qual o cliente deseja ser identificado e tratado no convívio social, ou nome fantasia"
+                    },
+                    "nome": {
+                      "type": "string",
+                      "description": "Nome completo do cliente, ou razão social"
+                    },
+                    "tipoDocumento": {
+                      "type": "string",
+                      "description": "Tipo do documento de identificação ( CPF | CNPJ )",
+                      "enum": [
+                        "CPF",
+                        "CNPJ"
+                      ]
+                    },
+                    "documento": {
+                      "type": "string",
+                      "description": "Número do documento de identificação"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Endereço de e-mail do cliente"
+                    },
+                    "telefone": {
+                      "type": "string",
+                      "description": "Número de telefone para contato"
+                    },
+                    "contatoWhatsApp": {
+                      "type": "boolean",
+                      "description": "Indica preferência por contato via WhatsApp"
+                    },
+                    "endereco": {
+                      "type": "object",
+                      "description": "Endereço residencial do cliente",
+                      "properties": {
+                        "logradouro": {
+                          "type": "string",
+                          "description": "Nome da rua ou avenida"
+                        },
+                        "numero": {
+                          "type": "string",
+                          "description": "Número do imóvel"
+                        },
+                        "complemento": {
+                          "type": "string",
+                          "description": "Complemento do endereço ( Apto, Bloco...)"
+                        },
+                        "bairro": {
+                          "type": "string",
+                          "description": "Bairro do endereço"
+                        },
+                        "cidade": {
+                          "type": "string",
+                          "description": "Cidade do endereço"
+                        },
+                        "uf": {
+                          "type": "string",
+                          "description": "Unidade Federativa (Estado)"
+                        },
+                        "cep": {
+                          "type": "string",
+                          "description": "Código Postal (CEP)"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "FindClienteResponse": {
+                    "summary": "Exemplo de resposta para consulta de um cliente",
+                    "value": {
+                      "nomeSocial": "Maria Oliveira",
                       "nome": "Marcos Antônio Oliveira",
                       "tipoDocumento": "CPF",
                       "documento": "55563271064",
@@ -345,7 +774,7 @@
           "timeoutInMillis": 14000,
           "type": "http_proxy",
           "httpMethod": "GET",
-          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/hello",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/clientes/{clienteId}",
           "responses": {
             "default": {
               "statusCode": "503"
@@ -383,7 +812,166 @@
         "properties": {
           "nomeSocial": {
             "type": "string",
-            "description": "Nome pelo qual uma pessoa deseja ser identificada e tratada no convívio social, ou nome fantasia"
+            "description": "Nome pelo qual o cliente deseja ser identificado e tratado no convívio social, ou nome fantasia"
+          },
+          "nome": {
+            "type": "string",
+            "description": "Nome completo do cliente, ou razão social"
+          },
+          "tipoDocumento": {
+            "type": "string",
+            "description": "Tipo do documento de identificação ( CPF | CNPJ )",
+            "enum": [
+              "CPF",
+              "CNPJ"
+            ]
+          },
+          "documento": {
+            "type": "string",
+            "description": "Número do documento de identificação"
+          },
+          "email": {
+            "type": "string",
+            "description": "Endereço de e-mail do cliente"
+          },
+          "telefone": {
+            "type": "string",
+            "description": "Número de telefone para contato"
+          },
+          "contatoWhatsApp": {
+            "type": "boolean",
+            "description": "Indica preferência por contato via WhatsApp"
+          },
+          "endereco": {
+            "type": "object",
+            "description": "Endereço residencial do cliente",
+            "properties": {
+              "logradouro": {
+                "type": "string",
+                "description": "Nome da rua ou avenida"
+              },
+              "numero": {
+                "type": "string",
+                "description": "Número do imóvel"
+              },
+              "complemento": {
+                "type": "string",
+                "description": "Complemento do endereço ( Apto, Bloco...)"
+              },
+              "bairro": {
+                "type": "string",
+                "description": "Bairro do endereço"
+              },
+              "cidade": {
+                "type": "string",
+                "description": "Cidade do endereço"
+              },
+              "uf": {
+                "type": "string",
+                "description": "Unidade Federativa (Estado)"
+              },
+              "cep": {
+                "type": "string",
+                "description": "Código Postal (CEP)"
+              }
+            }
+          }
+        }
+      },
+      "CreateClienteRequest": {
+        "type": "object",
+        "properties": {
+          "nomeSocial": {
+            "type": "string",
+            "description": "Nome pelo qual o cliente deseja ser identificado e tratado no convívio social, ou nome fantasia"
+          },
+          "nome": {
+            "type": "string",
+            "description": "Nome completo do cliente, ou razão social"
+          },
+          "tipoDocumento": {
+            "type": "string",
+            "description": "Tipo do documento de identificação ( CPF | CNPJ )",
+            "enum": [
+              "CPF",
+              "CNPJ"
+            ]
+          },
+          "documento": {
+            "type": "string",
+            "description": "Número do documento de identificação"
+          },
+          "email": {
+            "type": "string",
+            "description": "Endereço de e-mail do cliente"
+          },
+          "telefone": {
+            "type": "string",
+            "description": "Número de telefone para contato"
+          },
+          "contatoWhatsApp": {
+            "type": "boolean",
+            "description": "Indica preferência por contato via WhatsApp"
+          },
+          "endereco": {
+            "type": "object",
+            "description": "Endereço residencial do cliente",
+            "properties": {
+              "logradouro": {
+                "type": "string",
+                "description": "Nome da rua ou avenida"
+              },
+              "numero": {
+                "type": "string",
+                "description": "Número do imóvel"
+              },
+              "complemento": {
+                "type": "string",
+                "description": "Complemento do endereço ( Apto, Bloco...)"
+              },
+              "bairro": {
+                "type": "string",
+                "description": "Bairro do endereço"
+              },
+              "cidade": {
+                "type": "string",
+                "description": "Cidade do endereço"
+              },
+              "uf": {
+                "type": "string",
+                "description": "Unidade Federativa (Estado)"
+              },
+              "cep": {
+                "type": "string",
+                "description": "Código Postal (CEP)"
+              }
+            },
+            "required": [
+              "logradouro",
+              "numero",
+              "bairro",
+              "cidade",
+              "uf",
+              "cep"
+            ]
+          }
+        },
+        "required": [
+          "nome",
+          "tipoDocumento",
+          "documento",
+          "email",
+          "telefone",
+          "contatoWhatsApp",
+          "endereco"
+        ]
+      },
+      "CreateClienteResponse": {
+        "type": "object",
+        "properties": {
+          "nomeSocial": {
+            "type": "string",
+            "description": "Nome pelo qual o cliente deseja ser identificado e tratado no convívio social, ou nome fantasia"
           },
           "nome": {
             "type": "string",
@@ -521,7 +1109,70 @@
       "FindClienteResponse": {
         "summary": "Exemplo de resposta para consulta de um cliente",
         "value": {
-          "nomeSocial": "Maria",
+          "nomeSocial": "Maria Oliveira",
+          "nome": "Marcos Antônio Oliveira",
+          "tipoDocumento": "CPF",
+          "documento": "55563271064",
+          "email": "maria.oliveira@email.com",
+          "telefone": "11988887777",
+          "contatoWhatsApp": false,
+          "endereco": {
+            "logradouro": "Avenida Brasil",
+            "numero": "456",
+            "complemento": "Casa",
+            "bairro": "Jardim América",
+            "cidade": "São Paulo",
+            "uf": "SP",
+            "cep": "01432000"
+          }
+        }
+      },
+      "CreateClienteRequest": {
+        "summary": "Exemplo de request para criação de um cliente",
+        "value": {
+          "nomeSocial": "Maria Oliveira",
+          "nome": "Marcos Antônio Oliveira",
+          "tipoDocumento": "CPF",
+          "documento": "55563271064",
+          "email": "maria.oliveira@email.com",
+          "telefone": "11988887777",
+          "contatoWhatsApp": false,
+          "endereco": {
+            "logradouro": "Avenida Brasil",
+            "numero": "456",
+            "complemento": "Casa",
+            "bairro": "Jardim América",
+            "cidade": "São Paulo",
+            "uf": "SP",
+            "cep": "01432000"
+          }
+        }
+      },
+      "CreateClienteResponse": {
+        "summary": "Exemplo de resposta para consulta de um cliente",
+        "value": {
+          "nomeSocial": "Maria Oliveira",
+          "nome": "Marcos Antônio Oliveira",
+          "tipoDocumento": "CPF",
+          "documento": "55563271064",
+          "email": "maria.oliveira@email.com",
+          "telefone": "11988887777",
+          "contatoWhatsApp": false,
+          "endereco": {
+            "logradouro": "Avenida Brasil",
+            "numero": "456",
+            "complemento": "Casa",
+            "bairro": "Jardim América",
+            "cidade": "São Paulo",
+            "uf": "SP",
+            "cep": "01432000"
+          }
+        }
+      },
+      "201CreateClienteResponse": {
+        "summary": "Exemplo de resposta para consulta de um cliente",
+        "value": {
+          "nomeSocial": "Maria Oliveira",
           "nome": "Marcos Antônio Oliveira",
           "tipoDocumento": "CPF",
           "documento": "55563271064",
@@ -542,7 +1193,7 @@
       "200FindClienteResponse": {
         "summary": "Exemplo de resposta para consulta de um cliente",
         "value": {
-          "nomeSocial": "Maria",
+          "nomeSocial": "Maria Oliveira",
           "nome": "Marcos Antônio Oliveira",
           "tipoDocumento": "CPF",
           "documento": "55563271064",
