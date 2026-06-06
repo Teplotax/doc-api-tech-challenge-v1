@@ -3868,6 +3868,305 @@
         },
         "x-amazon-apigateway-request-validator": "params-only"
       }
+    },
+    "/veiculos/placa/{placa}": {
+      "get": {
+        "tags": [
+          "Veículos"
+        ],
+        "summary": "Consultar Veículo por placa",
+        "description": "Endpoint para consulta de veículos por placa\n",
+        "operationId": "get /veiculos/placa/{placa}",
+        "parameters": [
+          {
+            "name": "x-correlationid",
+            "in": "header",
+            "description": "Código para identificar requisição",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "placa",
+            "in": "path",
+            "description": "Placa do veículo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "ABC1234 ou ABC1D23"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Veículo consultado por placa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "clienteId": {
+                      "type": "integer",
+                      "description": "Identificador do cliente proprietário do veículo"
+                    },
+                    "placa": {
+                      "type": "string",
+                      "description": "Placa do veículo"
+                    },
+                    "marca": {
+                      "type": "string",
+                      "description": "Marca do veículo"
+                    },
+                    "modelo": {
+                      "type": "string",
+                      "description": "Modelo do veículo"
+                    },
+                    "cor": {
+                      "type": "string",
+                      "description": "Cor do veículo"
+                    },
+                    "ano": {
+                      "type": "integer",
+                      "description": "Ano de fabricação do veículo"
+                    }
+                  }
+                },
+                "examples": {
+                  "FindVeiculoResponse": {
+                    "summary": "Exemplo de resposta para consulta de um veículo",
+                    "value": {
+                      "clienteId": 1,
+                      "placa": "FSC1123S",
+                      "marca": "Volkswagen",
+                      "modelo": "Gol",
+                      "cor": "Branco",
+                      "ano": 2011
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "400": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "401": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "403": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Forbidden"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "404": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "405": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Method Not Allowed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "503": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Service Unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "timeoutInMillis": 14000,
+          "type": "http_proxy",
+          "httpMethod": "GET",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/veiculos/placa/{placa}",
+          "responses": {
+            "default": {
+              "statusCode": "503"
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "connectionType": "VPC_LINK",
+          "connectionId": "txypyt",
+          "requestParameters": {
+            "integration.request.path.placa": "method.request.path.placa",
+            "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
+          }
+        },
+        "x-amazon-apigateway-request-validator": "params-only"
+      }
     }
   },
   "components": {
