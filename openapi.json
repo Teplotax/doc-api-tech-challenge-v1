@@ -4171,7 +4171,6 @@
     "/produtos/pecas": {
       "post": {
         "tags": [
-          "Produtos",
           "Peças"
         ],
         "summary": "Criar Peça",
@@ -4715,7 +4714,6 @@
     "/produtos/pecas/{pecaId}": {
       "put": {
         "tags": [
-          "Produtos",
           "Peças"
         ],
         "summary": "Atualizar Peça",
@@ -5226,7 +5224,6 @@
       },
       "get": {
         "tags": [
-          "Produtos",
           "Peças"
         ],
         "summary": "Consultar Peça",
@@ -5637,7 +5634,6 @@
       },
       "delete": {
         "tags": [
-          "Produtos",
           "Peças"
         ],
         "summary": "Deletar Peça",
