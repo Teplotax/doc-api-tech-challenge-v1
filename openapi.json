@@ -9403,6 +9403,11 @@
                       "type": "string",
                       "description": "Tag chave da OS"
                     },
+                    "criadaEm": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data e hora de criação da OS"
+                    },
                     "precoTotal": {
                       "type": "number",
                       "format": "decimal",
@@ -9503,6 +9508,7 @@
                       "veiculoId": 1,
                       "veiculoPlaca": "ABC1D23",
                       "tagChave": "OS-2024-001",
+                      "criadaEm": "2024-06-01T10:00:00",
                       "precoTotal": 485,
                       "servicosDesejados": [
                         {
@@ -9805,21 +9811,21 @@
           {
             "name": "dataInicio",
             "in": "query",
-            "description": "Data/hora de início do range (ISO 8601)",
+            "description": "Data de início do range (ex. 2026-06-19)",
             "required": false,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date"
             }
           },
           {
             "name": "dataFim",
             "in": "query",
-            "description": "Data/hora de fim do range (ISO 8601)",
+            "description": "Data de fim do range (ex. 2026-06-19)",
             "required": false,
             "schema": {
               "type": "string",
-              "format": "date-time"
+              "format": "date"
             }
           },
           {
@@ -9911,6 +9917,11 @@
                             "type": "string",
                             "description": "Tag chave da OS"
                           },
+                          "criadaEm": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Data e hora de criação da OS"
+                          },
                           "precoTotal": {
                             "type": "number",
                             "format": "decimal",
@@ -9953,6 +9964,7 @@
                           "complexidade": "MEDIA",
                           "sintomas": "Barulho ao frear e vibração no volante",
                           "tagChave": "OS-2024-001",
+                          "criadaEm": "2024-06-01T10:00:00",
                           "precoTotal": 685
                         },
                         {
@@ -9966,6 +9978,7 @@
                           "complexidade": null,
                           "sintomas": "Carro não liga",
                           "tagChave": "OS-2024-002",
+                          "criadaEm": "2024-06-02T09:15:00",
                           "precoTotal": 150
                         }
                       ],
@@ -10295,6 +10308,11 @@
                     "tagChave": {
                       "type": "string",
                       "description": "Tag chave da OS"
+                    },
+                    "criadaEm": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data e hora de criação da OS"
                     },
                     "precoTotal": {
                       "type": "number",
@@ -10652,6 +10670,7 @@
                       "complexidade": "MEDIA",
                       "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
                       "tagChave": "OS-2024-001",
+                      "criadaEm": "2024-06-01T10:00:00",
                       "precoTotal": 685,
                       "precoTotalAprovado": null,
                       "precoServicosDesejados": 485,
@@ -13254,6 +13273,11 @@
             "type": "string",
             "description": "Tag chave da OS"
           },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora de criação da OS"
+          },
           "precoTotal": {
             "type": "number",
             "format": "decimal",
@@ -13400,6 +13424,11 @@
           "tagChave": {
             "type": "string",
             "description": "Tag chave da OS"
+          },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora de criação da OS"
           },
           "precoTotal": {
             "type": "number",
@@ -13806,6 +13835,11 @@
                 "tagChave": {
                   "type": "string",
                   "description": "Tag chave da OS"
+                },
+                "criadaEm": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Data e hora de criação da OS"
                 },
                 "precoTotal": {
                   "type": "number",
@@ -14721,6 +14755,7 @@
           "veiculoId": 1,
           "veiculoPlaca": "ABC1D23",
           "tagChave": "OS-2024-001",
+          "criadaEm": "2024-06-01T10:00:00",
           "precoTotal": 485,
           "servicosDesejados": [
             {
@@ -14783,6 +14818,7 @@
           "complexidade": "MEDIA",
           "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
           "tagChave": "OS-2024-001",
+          "criadaEm": "2024-06-01T10:00:00",
           "precoTotal": 685,
           "precoTotalAprovado": null,
           "precoServicosDesejados": 485,
@@ -14870,6 +14906,7 @@
               "complexidade": "MEDIA",
               "sintomas": "Barulho ao frear e vibração no volante",
               "tagChave": "OS-2024-001",
+              "criadaEm": "2024-06-01T10:00:00",
               "precoTotal": 685
             },
             {
@@ -14883,6 +14920,7 @@
               "complexidade": null,
               "sintomas": "Carro não liga",
               "tagChave": "OS-2024-002",
+              "criadaEm": "2024-06-02T09:15:00",
               "precoTotal": 150
             }
           ],
@@ -15342,6 +15380,7 @@
               "complexidade": "MEDIA",
               "sintomas": "Barulho ao frear e vibração no volante",
               "tagChave": "OS-2024-001",
+              "criadaEm": "2024-06-01T10:00:00",
               "precoTotal": 685
             },
             {
@@ -15355,6 +15394,7 @@
               "complexidade": null,
               "sintomas": "Carro não liga",
               "tagChave": "OS-2024-002",
+              "criadaEm": "2024-06-02T09:15:00",
               "precoTotal": 150
             }
           ],
@@ -15373,6 +15413,7 @@
           "veiculoId": 1,
           "veiculoPlaca": "ABC1D23",
           "tagChave": "OS-2024-001",
+          "criadaEm": "2024-06-01T10:00:00",
           "precoTotal": 485,
           "servicosDesejados": [
             {
@@ -15435,6 +15476,7 @@
           "complexidade": "MEDIA",
           "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
           "tagChave": "OS-2024-001",
+          "criadaEm": "2024-06-01T10:00:00",
           "precoTotal": 685,
           "precoTotalAprovado": null,
           "precoServicosDesejados": 485,
