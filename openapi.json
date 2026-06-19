@@ -8053,12 +8053,10 @@
                           ],
                           "pecas": [
                             {
-                              "id": 1,
                               "tipoPeca": "FILTRO_OLEO",
                               "quantidade": 1
                             },
                             {
-                              "id": 2,
                               "tipoPeca": "FILTRO_AR",
                               "quantidade": 1
                             }
@@ -12266,12 +12264,10 @@
               ],
               "pecas": [
                 {
-                  "id": 1,
                   "tipoPeca": "FILTRO_OLEO",
                   "quantidade": 1
                 },
                 {
-                  "id": 2,
                   "tipoPeca": "FILTRO_AR",
                   "quantidade": 1
                 }
@@ -12651,12 +12647,10 @@
               ],
               "pecas": [
                 {
-                  "id": 1,
                   "tipoPeca": "FILTRO_OLEO",
                   "quantidade": 1
                 },
                 {
-                  "id": 2,
                   "tipoPeca": "FILTRO_AR",
                   "quantidade": 1
                 }
