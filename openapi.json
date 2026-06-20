@@ -9282,7 +9282,7 @@
         "tags": [
           "Ordens de Serviço"
         ],
-        "summary": "Criar Ordem de Serviço",
+        "summary": "Criar OS",
         "description": "Endpoint para criar uma ordem de serviço\n",
         "operationId": "post/ordensDeServico",
         "parameters": [
@@ -9755,7 +9755,7 @@
         "tags": [
           "Ordens de Serviço"
         ],
-        "summary": "Listar Ordens de Serviço",
+        "summary": "Listar OS",
         "description": "Endpoint para listagem paginada de ordens de serviço com filtros opcionais\n",
         "operationId": "get/ordensDeServico",
         "parameters": [
@@ -10221,7 +10221,7 @@
         "tags": [
           "Ordens de Serviço"
         ],
-        "summary": "Consultar Ordem de Serviço",
+        "summary": "Consultar OS",
         "description": "Endpoint para consulta de ordem de serviço por ordemDeServicoId\n",
         "operationId": "get/ordensDeServico/{ordemDeServicoId}",
         "parameters": [
@@ -10971,7 +10971,7 @@
         "tags": [
           "Ordens de Serviço"
         ],
-        "summary": "Diagnosticar Ordem de Serviço",
+        "summary": "Diagnosticar OS",
         "description": "Endpoint para iniciar o diagnóstico de uma ordem de serviço, alterando seu status para EM_DIAGNOSTICO\n",
         "operationId": "post/ordensDeServico/{ordemDeServicoId}/diagnosticar",
         "parameters": [
