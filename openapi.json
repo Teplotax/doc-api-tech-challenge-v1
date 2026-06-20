@@ -9277,14 +9277,14 @@
         "x-amazon-apigateway-request-validator": "params-only"
       }
     },
-    "/ordemsDeServico": {
+    "/ordensDeServico": {
       "post": {
         "tags": [
           "Ordens de Serviço"
         ],
         "summary": "Criar Ordem de Serviço",
         "description": "Endpoint para criar uma ordem de serviço\n",
-        "operationId": "post/ordemsDeServico",
+        "operationId": "post/ordensDeServico",
         "parameters": [
           {
             "name": "x-correlationid",
@@ -9736,7 +9736,7 @@
           "timeoutInMillis": 14000,
           "type": "http_proxy",
           "httpMethod": "POST",
-          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordemsDeServico",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico",
           "responses": {
             "default": {
               "statusCode": "503"
@@ -9757,7 +9757,7 @@
         ],
         "summary": "Listar Ordens de Serviço",
         "description": "Endpoint para listagem paginada de ordens de serviço com filtros opcionais\n",
-        "operationId": "get/ordemsDeServico",
+        "operationId": "get/ordensDeServico",
         "parameters": [
           {
             "name": "x-correlationid",
@@ -10193,7 +10193,7 @@
           "timeoutInMillis": 14000,
           "type": "http_proxy",
           "httpMethod": "GET",
-          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordemsDeServico",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico",
           "responses": {
             "default": {
               "statusCode": "503"
@@ -10216,14 +10216,14 @@
         "x-amazon-apigateway-request-validator": "params-only"
       }
     },
-    "/ordemsDeServico/{ordemDeServicoId}": {
+    "/ordensDeServico/{ordemDeServicoId}": {
       "get": {
         "tags": [
           "Ordens de Serviço"
         ],
         "summary": "Consultar Ordem de Serviço",
         "description": "Endpoint para consulta de ordem de serviço por ordemDeServicoId\n",
-        "operationId": "get/ordemsDeServico/{ordemDeServicoId}",
+        "operationId": "get/ordensDeServico/{ordemDeServicoId}",
         "parameters": [
           {
             "name": "x-correlationid",
@@ -10949,7 +10949,7 @@
           "timeoutInMillis": 14000,
           "type": "http_proxy",
           "httpMethod": "GET",
-          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordemsDeServico/{ordemDeServicoId}",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{ordemDeServicoId}",
           "responses": {
             "default": {
               "statusCode": "503"
@@ -10966,14 +10966,14 @@
         "x-amazon-apigateway-request-validator": "params-only"
       }
     },
-    "/ordemsDeServico/{ordemDeServicoId}/diagnosticar": {
+    "/ordensDeServico/{ordemDeServicoId}/diagnosticar": {
       "post": {
         "tags": [
           "Ordens de Serviço"
         ],
         "summary": "Diagnosticar Ordem de Serviço",
         "description": "Endpoint para iniciar o diagnóstico de uma ordem de serviço, alterando seu status para EM_DIAGNOSTICO\n",
-        "operationId": "post/ordemsDeServico/{ordemDeServicoId}/diagnosticar",
+        "operationId": "post/ordensDeServico/{ordemDeServicoId}/diagnosticar",
         "parameters": [
           {
             "name": "x-correlationid",
@@ -11707,7 +11707,7 @@
           "timeoutInMillis": 14000,
           "type": "http_proxy",
           "httpMethod": "POST",
-          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordemsDeServico/{ordemDeServicoId}/diagnosticar",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{ordemDeServicoId}/diagnosticar",
           "responses": {
             "default": {
               "statusCode": "503"
