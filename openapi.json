@@ -10216,14 +10216,14 @@
         "x-amazon-apigateway-request-validator": "params-only"
       }
     },
-    "/ordensDeServico/{ordemDeServicoId}": {
+    "/ordensDeServico/{osId}": {
       "get": {
         "tags": [
           "Ordens de Serviço"
         ],
         "summary": "Consultar OS",
-        "description": "Endpoint para consulta de ordem de serviço por ordemDeServicoId\n",
-        "operationId": "get/ordensDeServico/{ordemDeServicoId}",
+        "description": "Endpoint para consulta de ordem de serviço por osId\n",
+        "operationId": "get/ordensDeServico/{osId}",
         "parameters": [
           {
             "name": "x-correlationid",
@@ -10237,7 +10237,7 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
-            "name": "ordemDeServicoId",
+            "name": "osId",
             "in": "path",
             "description": "Identificador da ordem de serviço",
             "required": true,
@@ -10949,7 +10949,7 @@
           "timeoutInMillis": 14000,
           "type": "http_proxy",
           "httpMethod": "GET",
-          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{ordemDeServicoId}",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{osId}",
           "responses": {
             "default": {
               "statusCode": "503"
@@ -10959,21 +10959,21 @@
           "connectionType": "VPC_LINK",
           "connectionId": "txypyt",
           "requestParameters": {
-            "integration.request.path.ordemDeServicoId": "method.request.path.ordemDeServicoId",
+            "integration.request.path.osId": "method.request.path.osId",
             "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
           }
         },
         "x-amazon-apigateway-request-validator": "params-only"
       }
     },
-    "/ordensDeServico/{ordemDeServicoId}/diagnosticar": {
+    "/ordensDeServico/{osId}/diagnosticar": {
       "post": {
         "tags": [
           "Ordens de Serviço"
         ],
         "summary": "Diagnosticar OS",
         "description": "Endpoint para iniciar o diagnóstico de uma ordem de serviço, alterando seu status para EM_DIAGNOSTICO\n",
-        "operationId": "post/ordensDeServico/{ordemDeServicoId}/diagnosticar",
+        "operationId": "post/ordensDeServico/{osId}/diagnosticar",
         "parameters": [
           {
             "name": "x-correlationid",
@@ -10987,7 +10987,7 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
-            "name": "ordemDeServicoId",
+            "name": "osId",
             "in": "path",
             "description": "Identificador da ordem de serviço",
             "required": true,
@@ -11707,7 +11707,7 @@
           "timeoutInMillis": 14000,
           "type": "http_proxy",
           "httpMethod": "POST",
-          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{ordemDeServicoId}/diagnosticar",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{osId}/diagnosticar",
           "responses": {
             "default": {
               "statusCode": "503"
@@ -11717,21 +11717,21 @@
           "connectionType": "VPC_LINK",
           "connectionId": "txypyt",
           "requestParameters": {
-            "integration.request.path.ordemDeServicoId": "method.request.path.ordemDeServicoId",
+            "integration.request.path.osId": "method.request.path.osId",
             "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
           }
         },
         "x-amazon-apigateway-request-validator": "params-only"
       }
     },
-    "/ordensDeServico/{ordemDeServicoId}/adicionarServicos": {
+    "/ordensDeServico/{osId}/adicionarServicos": {
       "post": {
         "tags": [
           "Ordens de Serviço"
         ],
         "summary": "Adicionar serviços à OS",
         "description": "Endpoint para adicionar serviços necessários e/ou adicionais a uma ordem de serviço\n",
-        "operationId": "post/ordensDeServico/{ordemDeServicoId}/adicionarServicos",
+        "operationId": "post/ordensDeServico/{osId}/adicionarServicos",
         "parameters": [
           {
             "name": "x-correlationid",
@@ -11745,7 +11745,7 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
-            "name": "ordemDeServicoId",
+            "name": "osId",
             "in": "path",
             "description": "Identificador da ordem de serviço",
             "required": true,
@@ -12546,7 +12546,7 @@
           "timeoutInMillis": 14000,
           "type": "http_proxy",
           "httpMethod": "POST",
-          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{ordemDeServicoId}/adicionarServicos",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{osId}/adicionarServicos",
           "responses": {
             "default": {
               "statusCode": "503"
@@ -12556,7 +12556,7 @@
           "connectionType": "VPC_LINK",
           "connectionId": "txypyt",
           "requestParameters": {
-            "integration.request.path.ordemDeServicoId": "method.request.path.ordemDeServicoId",
+            "integration.request.path.osId": "method.request.path.osId",
             "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
           }
         },
