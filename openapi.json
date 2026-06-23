@@ -6035,6 +6035,856 @@
         "x-amazon-apigateway-request-validator": "params-only"
       }
     },
+    "/ordensDeServico/{osId}/finalizar": {
+      "post": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Finalizar OS",
+        "description": "Finaliza a ordem de serviço alterando seu status para FINALIZADA.\nConsome o estoque real (removerEstoque) e libera a reserva (removerEstoqueReservado) de todos os serviços aprovados.\nSó é permitido a partir do status EM_EXECUCAO.\n",
+        "operationId": "post/ordensDeServico/{osId}/finalizar",
+        "parameters": [
+          {
+            "name": "x-correlationid",
+            "in": "header",
+            "description": "Código para identificar requisição",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "osId",
+            "in": "path",
+            "description": "Identificador da ordem de serviço",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ordem de Serviço finalizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Identificador da OS"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Status atual da OS",
+                      "enum": [
+                        "RECEBIDA",
+                        "EM_DIAGNOSTICO",
+                        "AGUARDANDO_APROVACAO",
+                        "APROVADA",
+                        "EM_EXECUCAO",
+                        "FINALIZADA",
+                        "ENTREGUE",
+                        "CANCELADA",
+                        "DEVOLVIDO"
+                      ]
+                    },
+                    "clienteId": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Identificador do cliente"
+                    },
+                    "clienteNomeSocial": {
+                      "type": "string",
+                      "description": "Nome social do cliente"
+                    },
+                    "clienteDocumento": {
+                      "type": "string",
+                      "description": "Documento do cliente"
+                    },
+                    "veiculoId": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Identificador do veículo"
+                    },
+                    "veiculoPlaca": {
+                      "type": "string",
+                      "description": "Placa do veículo"
+                    },
+                    "complexidade": {
+                      "type": "string",
+                      "description": "Complexidade da OS"
+                    },
+                    "sintomas": {
+                      "type": "string",
+                      "description": "Descrição dos sintomas"
+                    },
+                    "tagChave": {
+                      "type": "string",
+                      "description": "Tag chave da OS"
+                    },
+                    "criadaEm": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data e hora de criação da OS"
+                    },
+                    "precoTotal": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "Preço total da OS"
+                    },
+                    "precoTotalAprovado": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "Preço total aprovado pelo cliente"
+                    },
+                    "precoServicosDesejados": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "Preço total dos serviços desejados"
+                    },
+                    "precoServicosNecessarios": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "Preço total dos serviços necessários"
+                    },
+                    "precoServicosAdicionais": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "Preço total dos serviços adicionais"
+                    },
+                    "justificativaNecessarios": {
+                      "type": "string",
+                      "description": "Justificativa dos serviços necessários"
+                    },
+                    "justificativaAdicionais": {
+                      "type": "string",
+                      "description": "Justificativa dos serviços adicionais"
+                    },
+                    "servicosDesejados": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "format": "int64",
+                            "description": "Identificador do serviço na OS"
+                          },
+                          "servico": {
+                            "type": "string",
+                            "description": "Nome do serviço"
+                          },
+                          "aprovado": {
+                            "type": "boolean",
+                            "description": "Indica se o serviço foi aprovado pelo cliente"
+                          },
+                          "precoTotal": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "Preço total do serviço"
+                          },
+                          "precoHorasTecnicas": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "Preço das horas técnicas"
+                          },
+                          "pecas": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "peca": {
+                                  "type": "string"
+                                },
+                                "ean": {
+                                  "type": "string"
+                                },
+                                "quantidade": {
+                                  "type": "integer"
+                                },
+                                "precoUnitario": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                },
+                                "precoTotal": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                }
+                              }
+                            }
+                          },
+                          "insumos": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "insumo": {
+                                  "type": "string"
+                                },
+                                "ean": {
+                                  "type": "string"
+                                },
+                                "quantidade": {
+                                  "type": "integer"
+                                },
+                                "precoUnitario": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                },
+                                "precoTotal": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "servicosNecessarios": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "format": "int64",
+                            "description": "Identificador do serviço na OS"
+                          },
+                          "servico": {
+                            "type": "string",
+                            "description": "Nome do serviço"
+                          },
+                          "aprovado": {
+                            "type": "boolean",
+                            "description": "Indica se o serviço foi aprovado pelo cliente"
+                          },
+                          "precoTotal": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "Preço total do serviço"
+                          },
+                          "precoHorasTecnicas": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "Preço das horas técnicas"
+                          },
+                          "pecas": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "peca": {
+                                  "type": "string"
+                                },
+                                "ean": {
+                                  "type": "string"
+                                },
+                                "quantidade": {
+                                  "type": "integer"
+                                },
+                                "precoUnitario": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                },
+                                "precoTotal": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                }
+                              }
+                            }
+                          },
+                          "insumos": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "insumo": {
+                                  "type": "string"
+                                },
+                                "ean": {
+                                  "type": "string"
+                                },
+                                "quantidade": {
+                                  "type": "integer"
+                                },
+                                "precoUnitario": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                },
+                                "precoTotal": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "servicosAdicionais": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "format": "int64",
+                            "description": "Identificador do serviço na OS"
+                          },
+                          "servico": {
+                            "type": "string",
+                            "description": "Nome do serviço"
+                          },
+                          "aprovado": {
+                            "type": "boolean",
+                            "description": "Indica se o serviço foi aprovado pelo cliente"
+                          },
+                          "precoTotal": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "Preço total do serviço"
+                          },
+                          "precoHorasTecnicas": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "Preço das horas técnicas"
+                          },
+                          "pecas": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "peca": {
+                                  "type": "string"
+                                },
+                                "ean": {
+                                  "type": "string"
+                                },
+                                "quantidade": {
+                                  "type": "integer"
+                                },
+                                "precoUnitario": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                },
+                                "precoTotal": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                }
+                              }
+                            }
+                          },
+                          "insumos": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "insumo": {
+                                  "type": "string"
+                                },
+                                "ean": {
+                                  "type": "string"
+                                },
+                                "quantidade": {
+                                  "type": "integer"
+                                },
+                                "precoUnitario": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                },
+                                "precoTotal": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "historico": {
+                      "type": "array",
+                      "description": "Histórico de mudanças de status",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "description": "Status registrado"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Data e hora do registro"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "definitions": {
+                    "ServicoOSAprovadoList": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "format": "int64",
+                            "description": "Identificador do serviço na OS"
+                          },
+                          "servico": {
+                            "type": "string",
+                            "description": "Nome do serviço"
+                          },
+                          "aprovado": {
+                            "type": "boolean",
+                            "description": "Indica se o serviço foi aprovado pelo cliente"
+                          },
+                          "precoTotal": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "Preço total do serviço"
+                          },
+                          "precoHorasTecnicas": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "Preço das horas técnicas"
+                          },
+                          "pecas": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "peca": {
+                                  "type": "string"
+                                },
+                                "ean": {
+                                  "type": "string"
+                                },
+                                "quantidade": {
+                                  "type": "integer"
+                                },
+                                "precoUnitario": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                },
+                                "precoTotal": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                }
+                              }
+                            }
+                          },
+                          "insumos": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "insumo": {
+                                  "type": "string"
+                                },
+                                "ean": {
+                                  "type": "string"
+                                },
+                                "quantidade": {
+                                  "type": "integer"
+                                },
+                                "precoUnitario": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                },
+                                "precoTotal": {
+                                  "type": "number",
+                                  "format": "decimal"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "FinalizeOSResponse": {
+                    "value": {
+                      "id": 1,
+                      "status": "FINALIZADA",
+                      "clienteId": 1,
+                      "clienteNomeSocial": "João Silva",
+                      "clienteDocumento": "123.456.789-00",
+                      "veiculoId": 1,
+                      "veiculoPlaca": "ABC1D23",
+                      "complexidade": "MEDIA",
+                      "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
+                      "tagChave": "001",
+                      "criadaEm": "2024-06-01T10:00:00",
+                      "precoTotal": 810,
+                      "precoTotalAprovado": 600,
+                      "precoServicosDesejados": 485,
+                      "precoServicosNecessarios": 280,
+                      "precoServicosAdicionais": 45,
+                      "justificativaNecessarios": "Identificado desgaste excessivo no disco de freio durante o diagnóstico",
+                      "justificativaAdicionais": "Mecânico identificou lâmpada do farol direito queimada durante o diagnóstico",
+                      "servicosDesejados": [
+                        {
+                          "id": 1,
+                          "servico": "Revisão de freios",
+                          "aprovado": true,
+                          "precoTotal": 320,
+                          "precoHorasTecnicas": 120,
+                          "pecas": [
+                            {
+                              "peca": "Pastilha de freio dianteira",
+                              "ean": 7891234560001,
+                              "quantidade": 4,
+                              "precoUnitario": 35,
+                              "precoTotal": 140
+                            }
+                          ],
+                          "insumos": [
+                            {
+                              "insumo": "Fluido de freio DOT 4",
+                              "ean": 7891234560010,
+                              "quantidade": 1,
+                              "precoUnitario": 25,
+                              "precoTotal": 25
+                            }
+                          ]
+                        },
+                        {
+                          "id": 2,
+                          "servico": "Balanceamento de rodas",
+                          "aprovado": false,
+                          "precoTotal": 165,
+                          "precoHorasTecnicas": 80,
+                          "pecas": [],
+                          "insumos": []
+                        }
+                      ],
+                      "servicosNecessarios": [
+                        {
+                          "id": 3,
+                          "servico": "Troca de disco de freio",
+                          "aprovado": true,
+                          "precoTotal": 280,
+                          "precoHorasTecnicas": 100,
+                          "pecas": [
+                            {
+                              "peca": "Disco de freio dianteiro",
+                              "ean": 7891234560020,
+                              "quantidade": 2,
+                              "precoUnitario": 90,
+                              "precoTotal": 180
+                            }
+                          ],
+                          "insumos": []
+                        }
+                      ],
+                      "servicosAdicionais": [
+                        {
+                          "id": 4,
+                          "servico": "Troca de lâmpada do farol",
+                          "aprovado": false,
+                          "precoTotal": 45,
+                          "precoHorasTecnicas": 21,
+                          "pecas": [
+                            {
+                              "peca": "Lâmpada de Farol H7 Luz Baixa",
+                              "ean": 7891342130177,
+                              "quantidade": 1,
+                              "precoUnitario": 24,
+                              "precoTotal": 24
+                            }
+                          ],
+                          "insumos": []
+                        }
+                      ],
+                      "historico": [
+                        {
+                          "status": "RECEBIDA",
+                          "createdAt": "2024-06-01T10:00:00"
+                        },
+                        {
+                          "status": "EM_DIAGNOSTICO",
+                          "createdAt": "2024-06-01T11:30:00"
+                        },
+                        {
+                          "status": "AGUARDANDO_APROVACAO",
+                          "createdAt": "2024-06-01T14:00:00"
+                        },
+                        {
+                          "status": "APROVADA",
+                          "createdAt": "2024-06-01T15:30:00"
+                        },
+                        {
+                          "status": "EM_EXECUCAO",
+                          "createdAt": "2024-06-01T16:00:00"
+                        },
+                        {
+                          "status": "FINALIZADA",
+                          "createdAt": "2024-06-02T09:00:00"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "400": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "401": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "403": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Forbidden"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "404": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "405": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Method Not Allowed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "503": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Service Unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "timeoutInMillis": 14000,
+          "type": "http_proxy",
+          "httpMethod": "POST",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{osId}/finalizar",
+          "responses": {
+            "default": {
+              "statusCode": "503"
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "connectionType": "VPC_LINK",
+          "connectionId": "txypyt",
+          "requestParameters": {
+            "integration.request.path.osId": "method.request.path.osId",
+            "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
+          }
+        },
+        "x-amazon-apigateway-request-validator": "params-only"
+      }
+    },
     "/ordensDeServico/{osId}/cancelar": {
       "post": {
         "tags": [
@@ -20942,6 +21792,447 @@
           }
         }
       },
+      "FinalizeOSResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador da OS"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status atual da OS",
+            "enum": [
+              "RECEBIDA",
+              "EM_DIAGNOSTICO",
+              "AGUARDANDO_APROVACAO",
+              "APROVADA",
+              "EM_EXECUCAO",
+              "FINALIZADA",
+              "ENTREGUE",
+              "CANCELADA",
+              "DEVOLVIDO"
+            ]
+          },
+          "clienteId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador do cliente"
+          },
+          "clienteNomeSocial": {
+            "type": "string",
+            "description": "Nome social do cliente"
+          },
+          "clienteDocumento": {
+            "type": "string",
+            "description": "Documento do cliente"
+          },
+          "veiculoId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador do veículo"
+          },
+          "veiculoPlaca": {
+            "type": "string",
+            "description": "Placa do veículo"
+          },
+          "complexidade": {
+            "type": "string",
+            "description": "Complexidade da OS"
+          },
+          "sintomas": {
+            "type": "string",
+            "description": "Descrição dos sintomas"
+          },
+          "tagChave": {
+            "type": "string",
+            "description": "Tag chave da OS"
+          },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora de criação da OS"
+          },
+          "precoTotal": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Preço total da OS"
+          },
+          "precoTotalAprovado": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Preço total aprovado pelo cliente"
+          },
+          "precoServicosDesejados": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Preço total dos serviços desejados"
+          },
+          "precoServicosNecessarios": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Preço total dos serviços necessários"
+          },
+          "precoServicosAdicionais": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Preço total dos serviços adicionais"
+          },
+          "justificativaNecessarios": {
+            "type": "string",
+            "description": "Justificativa dos serviços necessários"
+          },
+          "justificativaAdicionais": {
+            "type": "string",
+            "description": "Justificativa dos serviços adicionais"
+          },
+          "servicosDesejados": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "Identificador do serviço na OS"
+                },
+                "servico": {
+                  "type": "string",
+                  "description": "Nome do serviço"
+                },
+                "aprovado": {
+                  "type": "boolean",
+                  "description": "Indica se o serviço foi aprovado pelo cliente"
+                },
+                "precoTotal": {
+                  "type": "number",
+                  "format": "decimal",
+                  "description": "Preço total do serviço"
+                },
+                "precoHorasTecnicas": {
+                  "type": "number",
+                  "format": "decimal",
+                  "description": "Preço das horas técnicas"
+                },
+                "pecas": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "peca": {
+                        "type": "string"
+                      },
+                      "ean": {
+                        "type": "string"
+                      },
+                      "quantidade": {
+                        "type": "integer"
+                      },
+                      "precoUnitario": {
+                        "type": "number",
+                        "format": "decimal"
+                      },
+                      "precoTotal": {
+                        "type": "number",
+                        "format": "decimal"
+                      }
+                    }
+                  }
+                },
+                "insumos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "insumo": {
+                        "type": "string"
+                      },
+                      "ean": {
+                        "type": "string"
+                      },
+                      "quantidade": {
+                        "type": "integer"
+                      },
+                      "precoUnitario": {
+                        "type": "number",
+                        "format": "decimal"
+                      },
+                      "precoTotal": {
+                        "type": "number",
+                        "format": "decimal"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servicosNecessarios": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "Identificador do serviço na OS"
+                },
+                "servico": {
+                  "type": "string",
+                  "description": "Nome do serviço"
+                },
+                "aprovado": {
+                  "type": "boolean",
+                  "description": "Indica se o serviço foi aprovado pelo cliente"
+                },
+                "precoTotal": {
+                  "type": "number",
+                  "format": "decimal",
+                  "description": "Preço total do serviço"
+                },
+                "precoHorasTecnicas": {
+                  "type": "number",
+                  "format": "decimal",
+                  "description": "Preço das horas técnicas"
+                },
+                "pecas": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "peca": {
+                        "type": "string"
+                      },
+                      "ean": {
+                        "type": "string"
+                      },
+                      "quantidade": {
+                        "type": "integer"
+                      },
+                      "precoUnitario": {
+                        "type": "number",
+                        "format": "decimal"
+                      },
+                      "precoTotal": {
+                        "type": "number",
+                        "format": "decimal"
+                      }
+                    }
+                  }
+                },
+                "insumos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "insumo": {
+                        "type": "string"
+                      },
+                      "ean": {
+                        "type": "string"
+                      },
+                      "quantidade": {
+                        "type": "integer"
+                      },
+                      "precoUnitario": {
+                        "type": "number",
+                        "format": "decimal"
+                      },
+                      "precoTotal": {
+                        "type": "number",
+                        "format": "decimal"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "servicosAdicionais": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "Identificador do serviço na OS"
+                },
+                "servico": {
+                  "type": "string",
+                  "description": "Nome do serviço"
+                },
+                "aprovado": {
+                  "type": "boolean",
+                  "description": "Indica se o serviço foi aprovado pelo cliente"
+                },
+                "precoTotal": {
+                  "type": "number",
+                  "format": "decimal",
+                  "description": "Preço total do serviço"
+                },
+                "precoHorasTecnicas": {
+                  "type": "number",
+                  "format": "decimal",
+                  "description": "Preço das horas técnicas"
+                },
+                "pecas": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "peca": {
+                        "type": "string"
+                      },
+                      "ean": {
+                        "type": "string"
+                      },
+                      "quantidade": {
+                        "type": "integer"
+                      },
+                      "precoUnitario": {
+                        "type": "number",
+                        "format": "decimal"
+                      },
+                      "precoTotal": {
+                        "type": "number",
+                        "format": "decimal"
+                      }
+                    }
+                  }
+                },
+                "insumos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "insumo": {
+                        "type": "string"
+                      },
+                      "ean": {
+                        "type": "string"
+                      },
+                      "quantidade": {
+                        "type": "integer"
+                      },
+                      "precoUnitario": {
+                        "type": "number",
+                        "format": "decimal"
+                      },
+                      "precoTotal": {
+                        "type": "number",
+                        "format": "decimal"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "historico": {
+            "type": "array",
+            "description": "Histórico de mudanças de status",
+            "items": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "Status registrado"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Data e hora do registro"
+                }
+              }
+            }
+          }
+        },
+        "definitions": {
+          "ServicoOSAprovadoList": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "Identificador do serviço na OS"
+                },
+                "servico": {
+                  "type": "string",
+                  "description": "Nome do serviço"
+                },
+                "aprovado": {
+                  "type": "boolean",
+                  "description": "Indica se o serviço foi aprovado pelo cliente"
+                },
+                "precoTotal": {
+                  "type": "number",
+                  "format": "decimal",
+                  "description": "Preço total do serviço"
+                },
+                "precoHorasTecnicas": {
+                  "type": "number",
+                  "format": "decimal",
+                  "description": "Preço das horas técnicas"
+                },
+                "pecas": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "peca": {
+                        "type": "string"
+                      },
+                      "ean": {
+                        "type": "string"
+                      },
+                      "quantidade": {
+                        "type": "integer"
+                      },
+                      "precoUnitario": {
+                        "type": "number",
+                        "format": "decimal"
+                      },
+                      "precoTotal": {
+                        "type": "number",
+                        "format": "decimal"
+                      }
+                    }
+                  }
+                },
+                "insumos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "insumo": {
+                        "type": "string"
+                      },
+                      "ean": {
+                        "type": "string"
+                      },
+                      "quantidade": {
+                        "type": "integer"
+                      },
+                      "precoUnitario": {
+                        "type": "number",
+                        "format": "decimal"
+                      },
+                      "precoTotal": {
+                        "type": "number",
+                        "format": "decimal"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "ErrorMessage": {
         "type": "object",
         "properties": {
@@ -22775,6 +24066,128 @@
           ]
         }
       },
+      "FinalizeOSResponse": {
+        "value": {
+          "id": 1,
+          "status": "FINALIZADA",
+          "clienteId": 1,
+          "clienteNomeSocial": "João Silva",
+          "clienteDocumento": "123.456.789-00",
+          "veiculoId": 1,
+          "veiculoPlaca": "ABC1D23",
+          "complexidade": "MEDIA",
+          "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
+          "tagChave": "001",
+          "criadaEm": "2024-06-01T10:00:00",
+          "precoTotal": 810,
+          "precoTotalAprovado": 600,
+          "precoServicosDesejados": 485,
+          "precoServicosNecessarios": 280,
+          "precoServicosAdicionais": 45,
+          "justificativaNecessarios": "Identificado desgaste excessivo no disco de freio durante o diagnóstico",
+          "justificativaAdicionais": "Mecânico identificou lâmpada do farol direito queimada durante o diagnóstico",
+          "servicosDesejados": [
+            {
+              "id": 1,
+              "servico": "Revisão de freios",
+              "aprovado": true,
+              "precoTotal": 320,
+              "precoHorasTecnicas": 120,
+              "pecas": [
+                {
+                  "peca": "Pastilha de freio dianteira",
+                  "ean": 7891234560001,
+                  "quantidade": 4,
+                  "precoUnitario": 35,
+                  "precoTotal": 140
+                }
+              ],
+              "insumos": [
+                {
+                  "insumo": "Fluido de freio DOT 4",
+                  "ean": 7891234560010,
+                  "quantidade": 1,
+                  "precoUnitario": 25,
+                  "precoTotal": 25
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "servico": "Balanceamento de rodas",
+              "aprovado": false,
+              "precoTotal": 165,
+              "precoHorasTecnicas": 80,
+              "pecas": [],
+              "insumos": []
+            }
+          ],
+          "servicosNecessarios": [
+            {
+              "id": 3,
+              "servico": "Troca de disco de freio",
+              "aprovado": true,
+              "precoTotal": 280,
+              "precoHorasTecnicas": 100,
+              "pecas": [
+                {
+                  "peca": "Disco de freio dianteiro",
+                  "ean": 7891234560020,
+                  "quantidade": 2,
+                  "precoUnitario": 90,
+                  "precoTotal": 180
+                }
+              ],
+              "insumos": []
+            }
+          ],
+          "servicosAdicionais": [
+            {
+              "id": 4,
+              "servico": "Troca de lâmpada do farol",
+              "aprovado": false,
+              "precoTotal": 45,
+              "precoHorasTecnicas": 21,
+              "pecas": [
+                {
+                  "peca": "Lâmpada de Farol H7 Luz Baixa",
+                  "ean": 7891342130177,
+                  "quantidade": 1,
+                  "precoUnitario": 24,
+                  "precoTotal": 24
+                }
+              ],
+              "insumos": []
+            }
+          ],
+          "historico": [
+            {
+              "status": "RECEBIDA",
+              "createdAt": "2024-06-01T10:00:00"
+            },
+            {
+              "status": "EM_DIAGNOSTICO",
+              "createdAt": "2024-06-01T11:30:00"
+            },
+            {
+              "status": "AGUARDANDO_APROVACAO",
+              "createdAt": "2024-06-01T14:00:00"
+            },
+            {
+              "status": "APROVADA",
+              "createdAt": "2024-06-01T15:30:00"
+            },
+            {
+              "status": "EM_EXECUCAO",
+              "createdAt": "2024-06-01T16:00:00"
+            },
+            {
+              "status": "FINALIZADA",
+              "createdAt": "2024-06-02T09:00:00"
+            }
+          ]
+        }
+      },
       "200ListOSResponse": {
         "value": {
           "content": [
@@ -23584,6 +24997,128 @@
             {
               "status": "EM_EXECUCAO",
               "createdAt": "2024-06-01T16:00:00"
+            }
+          ]
+        }
+      },
+      "200FinalizeOSResponse": {
+        "value": {
+          "id": 1,
+          "status": "FINALIZADA",
+          "clienteId": 1,
+          "clienteNomeSocial": "João Silva",
+          "clienteDocumento": "123.456.789-00",
+          "veiculoId": 1,
+          "veiculoPlaca": "ABC1D23",
+          "complexidade": "MEDIA",
+          "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
+          "tagChave": "001",
+          "criadaEm": "2024-06-01T10:00:00",
+          "precoTotal": 810,
+          "precoTotalAprovado": 600,
+          "precoServicosDesejados": 485,
+          "precoServicosNecessarios": 280,
+          "precoServicosAdicionais": 45,
+          "justificativaNecessarios": "Identificado desgaste excessivo no disco de freio durante o diagnóstico",
+          "justificativaAdicionais": "Mecânico identificou lâmpada do farol direito queimada durante o diagnóstico",
+          "servicosDesejados": [
+            {
+              "id": 1,
+              "servico": "Revisão de freios",
+              "aprovado": true,
+              "precoTotal": 320,
+              "precoHorasTecnicas": 120,
+              "pecas": [
+                {
+                  "peca": "Pastilha de freio dianteira",
+                  "ean": 7891234560001,
+                  "quantidade": 4,
+                  "precoUnitario": 35,
+                  "precoTotal": 140
+                }
+              ],
+              "insumos": [
+                {
+                  "insumo": "Fluido de freio DOT 4",
+                  "ean": 7891234560010,
+                  "quantidade": 1,
+                  "precoUnitario": 25,
+                  "precoTotal": 25
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "servico": "Balanceamento de rodas",
+              "aprovado": false,
+              "precoTotal": 165,
+              "precoHorasTecnicas": 80,
+              "pecas": [],
+              "insumos": []
+            }
+          ],
+          "servicosNecessarios": [
+            {
+              "id": 3,
+              "servico": "Troca de disco de freio",
+              "aprovado": true,
+              "precoTotal": 280,
+              "precoHorasTecnicas": 100,
+              "pecas": [
+                {
+                  "peca": "Disco de freio dianteiro",
+                  "ean": 7891234560020,
+                  "quantidade": 2,
+                  "precoUnitario": 90,
+                  "precoTotal": 180
+                }
+              ],
+              "insumos": []
+            }
+          ],
+          "servicosAdicionais": [
+            {
+              "id": 4,
+              "servico": "Troca de lâmpada do farol",
+              "aprovado": false,
+              "precoTotal": 45,
+              "precoHorasTecnicas": 21,
+              "pecas": [
+                {
+                  "peca": "Lâmpada de Farol H7 Luz Baixa",
+                  "ean": 7891342130177,
+                  "quantidade": 1,
+                  "precoUnitario": 24,
+                  "precoTotal": 24
+                }
+              ],
+              "insumos": []
+            }
+          ],
+          "historico": [
+            {
+              "status": "RECEBIDA",
+              "createdAt": "2024-06-01T10:00:00"
+            },
+            {
+              "status": "EM_DIAGNOSTICO",
+              "createdAt": "2024-06-01T11:30:00"
+            },
+            {
+              "status": "AGUARDANDO_APROVACAO",
+              "createdAt": "2024-06-01T14:00:00"
+            },
+            {
+              "status": "APROVADA",
+              "createdAt": "2024-06-01T15:30:00"
+            },
+            {
+              "status": "EM_EXECUCAO",
+              "createdAt": "2024-06-01T16:00:00"
+            },
+            {
+              "status": "FINALIZADA",
+              "createdAt": "2024-06-02T09:00:00"
             }
           ]
         }
