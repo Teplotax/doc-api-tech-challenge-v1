@@ -1072,11 +1072,6 @@
                       "format": "decimal",
                       "description": "Preço total da OS"
                     },
-                    "precoTotalAprovado": {
-                      "type": "number",
-                      "format": "decimal",
-                      "description": "Preço total aprovado pelo cliente"
-                    },
                     "precoServicosDesejados": {
                       "type": "number",
                       "format": "decimal",
@@ -1844,11 +1839,6 @@
                       "type": "number",
                       "format": "decimal",
                       "description": "Preço total da OS"
-                    },
-                    "precoTotalAprovado": {
-                      "type": "number",
-                      "format": "decimal",
-                      "description": "Preço total aprovado pelo cliente"
                     },
                     "precoServicosDesejados": {
                       "type": "number",
@@ -2674,11 +2664,6 @@
                       "format": "decimal",
                       "description": "Preço total da OS"
                     },
-                    "precoTotalAprovado": {
-                      "type": "number",
-                      "format": "decimal",
-                      "description": "Preço total aprovado pelo cliente"
-                    },
                     "precoServicosDesejados": {
                       "type": "number",
                       "format": "decimal",
@@ -3487,11 +3472,6 @@
                       "type": "number",
                       "format": "decimal",
                       "description": "Preço total da OS"
-                    },
-                    "precoTotalAprovado": {
-                      "type": "number",
-                      "format": "decimal",
-                      "description": "Preço total aprovado pelo cliente"
                     },
                     "precoServicosDesejados": {
                       "type": "number",
@@ -4335,11 +4315,6 @@
                       "type": "number",
                       "format": "decimal",
                       "description": "Preço total da OS"
-                    },
-                    "precoTotalAprovado": {
-                      "type": "number",
-                      "format": "decimal",
-                      "description": "Preço total aprovado pelo cliente"
                     },
                     "precoServicosDesejados": {
                       "type": "number",
@@ -5292,11 +5267,6 @@
                       "format": "decimal",
                       "description": "Preço total da OS"
                     },
-                    "precoTotalAprovado": {
-                      "type": "number",
-                      "format": "decimal",
-                      "description": "Preço total aprovado pelo cliente"
-                    },
                     "precoServicosDesejados": {
                       "type": "number",
                       "format": "decimal",
@@ -6137,11 +6107,6 @@
                       "type": "number",
                       "format": "decimal",
                       "description": "Preço total da OS"
-                    },
-                    "precoTotalAprovado": {
-                      "type": "number",
-                      "format": "decimal",
-                      "description": "Preço total aprovado pelo cliente"
                     },
                     "precoServicosDesejados": {
                       "type": "number",
@@ -6988,11 +6953,6 @@
                       "format": "decimal",
                       "description": "Preço total da OS"
                     },
-                    "precoTotalAprovado": {
-                      "type": "number",
-                      "format": "decimal",
-                      "description": "Preço total aprovado pelo cliente"
-                    },
                     "historico": {
                       "type": "array",
                       "description": "Histórico de mudanças de status",
@@ -7283,6 +7243,465 @@
           "type": "http_proxy",
           "httpMethod": "POST",
           "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{osId}/cancelar",
+          "responses": {
+            "default": {
+              "statusCode": "503"
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "connectionType": "VPC_LINK",
+          "connectionId": "txypyt",
+          "requestParameters": {
+            "integration.request.path.osId": "method.request.path.osId",
+            "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
+          }
+        },
+        "x-amazon-apigateway-request-validator": "params-only"
+      }
+    },
+    "/ordensDeServico/{osId}/entregar": {
+      "post": {
+        "tags": [
+          "Ordens de Serviço"
+        ],
+        "summary": "Entregar ou devolver OS",
+        "description": "Dois comportamentos dependendo do status atual da OS:\n- **FINALIZADA** → altera para ENTREGUE, limpa a tagChave e envia nota fiscal por e-mail ao cliente.\n- **CANCELADA** → altera para DEVOLVIDO e limpa a tagChave. Nenhum e-mail é enviado.\n",
+        "operationId": "post/ordensDeServico/{osId}/entregar",
+        "parameters": [
+          {
+            "name": "x-correlationid",
+            "in": "header",
+            "description": "Código para identificar requisição",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "osId",
+            "in": "path",
+            "description": "Identificador da ordem de serviço",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Veículo entregue ou devolvido com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Identificador da OS"
+                    },
+                    "status": {
+                      "type": "string",
+                      "description": "Status atual da OS",
+                      "enum": [
+                        "RECEBIDA",
+                        "EM_DIAGNOSTICO",
+                        "AGUARDANDO_APROVACAO",
+                        "APROVADA",
+                        "EM_EXECUCAO",
+                        "FINALIZADA",
+                        "ENTREGUE",
+                        "CANCELADA",
+                        "DEVOLVIDO"
+                      ]
+                    },
+                    "clienteId": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Identificador do cliente"
+                    },
+                    "clienteNomeSocial": {
+                      "type": "string",
+                      "description": "Nome social do cliente"
+                    },
+                    "clienteDocumento": {
+                      "type": "string",
+                      "description": "Documento do cliente"
+                    },
+                    "veiculoId": {
+                      "type": "integer",
+                      "format": "int64",
+                      "description": "Identificador do veículo"
+                    },
+                    "veiculoPlaca": {
+                      "type": "string",
+                      "description": "Placa do veículo"
+                    },
+                    "complexidade": {
+                      "type": "string",
+                      "description": "Complexidade da OS"
+                    },
+                    "sintomas": {
+                      "type": "string",
+                      "description": "Descrição dos sintomas"
+                    },
+                    "tagChave": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "Tag chave da OS. Sempre null após entrega ou devolução."
+                    },
+                    "criadaEm": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data e hora de criação da OS"
+                    },
+                    "precoTotal": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "Preço total da OS"
+                    },
+                    "historico": {
+                      "type": "array",
+                      "description": "Histórico de mudanças de status",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "description": "Status registrado"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Data e hora do registro"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "EntregarOSEntregueResponse": {
+                    "value": {
+                      "id": 1,
+                      "status": "ENTREGUE",
+                      "clienteId": 1,
+                      "clienteNomeSocial": "João Silva",
+                      "clienteDocumento": "123.456.789-00",
+                      "veiculoId": 1,
+                      "veiculoPlaca": "ABC1D23",
+                      "complexidade": "MEDIA",
+                      "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
+                      "tagChave": null,
+                      "criadaEm": "2024-06-01T10:00:00",
+                      "precoTotal": 600,
+                      "historico": [
+                        {
+                          "status": "RECEBIDA",
+                          "createdAt": "2024-06-01T10:00:00"
+                        },
+                        {
+                          "status": "EM_DIAGNOSTICO",
+                          "createdAt": "2024-06-01T11:30:00"
+                        },
+                        {
+                          "status": "AGUARDANDO_APROVACAO",
+                          "createdAt": "2024-06-01T14:00:00"
+                        },
+                        {
+                          "status": "APROVADA",
+                          "createdAt": "2024-06-01T15:30:00"
+                        },
+                        {
+                          "status": "EM_EXECUCAO",
+                          "createdAt": "2024-06-01T16:00:00"
+                        },
+                        {
+                          "status": "FINALIZADA",
+                          "createdAt": "2024-06-02T09:00:00"
+                        },
+                        {
+                          "status": "ENTREGUE",
+                          "createdAt": "2024-06-02T10:00:00"
+                        }
+                      ]
+                    }
+                  },
+                  "EntregarOSDevolvidoResponse": {
+                    "value": {
+                      "id": 2,
+                      "status": "DEVOLVIDO",
+                      "clienteId": 1,
+                      "clienteNomeSocial": "João Silva",
+                      "clienteDocumento": "123.456.789-00",
+                      "veiculoId": 1,
+                      "veiculoPlaca": "ABC1D23",
+                      "complexidade": "MEDIA",
+                      "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
+                      "tagChave": null,
+                      "criadaEm": "2024-06-01T10:00:00",
+                      "precoTotal": 810,
+                      "historico": [
+                        {
+                          "status": "RECEBIDA",
+                          "createdAt": "2024-06-01T10:00:00"
+                        },
+                        {
+                          "status": "EM_DIAGNOSTICO",
+                          "createdAt": "2024-06-01T11:30:00"
+                        },
+                        {
+                          "status": "AGUARDANDO_APROVACAO",
+                          "createdAt": "2024-06-01T14:00:00"
+                        },
+                        {
+                          "status": "CANCELADA",
+                          "createdAt": "2024-06-01T16:00:00"
+                        },
+                        {
+                          "status": "DEVOLVIDO",
+                          "createdAt": "2024-06-02T10:00:00"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "400": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "401": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "403": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Forbidden"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "404": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "405": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Method Not Allowed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "503": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Service Unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "timeoutInMillis": 14000,
+          "type": "http_proxy",
+          "httpMethod": "POST",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/ordensDeServico/{osId}/entregar",
           "responses": {
             "default": {
               "statusCode": "503"
@@ -19048,11 +19467,6 @@
             "format": "decimal",
             "description": "Preço total da OS"
           },
-          "precoTotalAprovado": {
-            "type": "number",
-            "format": "decimal",
-            "description": "Preço total aprovado pelo cliente"
-          },
           "precoServicosDesejados": {
             "type": "number",
             "format": "decimal",
@@ -19568,11 +19982,6 @@
             "format": "decimal",
             "description": "Preço total da OS"
           },
-          "precoTotalAprovado": {
-            "type": "number",
-            "format": "decimal",
-            "description": "Preço total aprovado pelo cliente"
-          },
           "precoServicosDesejados": {
             "type": "number",
             "format": "decimal",
@@ -20022,11 +20431,6 @@
             "format": "decimal",
             "description": "Preço total da OS"
           },
-          "precoTotalAprovado": {
-            "type": "number",
-            "format": "decimal",
-            "description": "Preço total aprovado pelo cliente"
-          },
           "precoServicosDesejados": {
             "type": "number",
             "format": "decimal",
@@ -20446,11 +20850,6 @@
             "type": "number",
             "format": "decimal",
             "description": "Preço total da OS"
-          },
-          "precoTotalAprovado": {
-            "type": "number",
-            "format": "decimal",
-            "description": "Preço total aprovado pelo cliente"
           },
           "precoServicosDesejados": {
             "type": "number",
@@ -20901,11 +21300,6 @@
             "format": "decimal",
             "description": "Preço total da OS"
           },
-          "precoTotalAprovado": {
-            "type": "number",
-            "format": "decimal",
-            "description": "Preço total aprovado pelo cliente"
-          },
           "precoServicosDesejados": {
             "type": "number",
             "format": "decimal",
@@ -21326,11 +21720,6 @@
             "format": "decimal",
             "description": "Preço total da OS"
           },
-          "precoTotalAprovado": {
-            "type": "number",
-            "format": "decimal",
-            "description": "Preço total aprovado pelo cliente"
-          },
           "historico": {
             "type": "array",
             "description": "Histórico de mudanças de status",
@@ -21417,11 +21806,6 @@
             "type": "number",
             "format": "decimal",
             "description": "Preço total da OS"
-          },
-          "precoTotalAprovado": {
-            "type": "number",
-            "format": "decimal",
-            "description": "Preço total aprovado pelo cliente"
           },
           "precoServicosDesejados": {
             "type": "number",
@@ -21859,11 +22243,6 @@
             "format": "decimal",
             "description": "Preço total da OS"
           },
-          "precoTotalAprovado": {
-            "type": "number",
-            "format": "decimal",
-            "description": "Preço total aprovado pelo cliente"
-          },
           "precoServicosDesejados": {
             "type": "number",
             "format": "decimal",
@@ -22227,6 +22606,94 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "EntregarOSResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador da OS"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status atual da OS",
+            "enum": [
+              "RECEBIDA",
+              "EM_DIAGNOSTICO",
+              "AGUARDANDO_APROVACAO",
+              "APROVADA",
+              "EM_EXECUCAO",
+              "FINALIZADA",
+              "ENTREGUE",
+              "CANCELADA",
+              "DEVOLVIDO"
+            ]
+          },
+          "clienteId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador do cliente"
+          },
+          "clienteNomeSocial": {
+            "type": "string",
+            "description": "Nome social do cliente"
+          },
+          "clienteDocumento": {
+            "type": "string",
+            "description": "Documento do cliente"
+          },
+          "veiculoId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador do veículo"
+          },
+          "veiculoPlaca": {
+            "type": "string",
+            "description": "Placa do veículo"
+          },
+          "complexidade": {
+            "type": "string",
+            "description": "Complexidade da OS"
+          },
+          "sintomas": {
+            "type": "string",
+            "description": "Descrição dos sintomas"
+          },
+          "tagChave": {
+            "type": "string",
+            "nullable": true,
+            "description": "Tag chave da OS. Sempre null após entrega ou devolução."
+          },
+          "criadaEm": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora de criação da OS"
+          },
+          "precoTotal": {
+            "type": "number",
+            "format": "decimal",
+            "description": "Preço total da OS"
+          },
+          "historico": {
+            "type": "array",
+            "description": "Histórico de mudanças de status",
+            "items": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "description": "Status registrado"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Data e hora do registro"
                 }
               }
             }
@@ -24188,6 +24655,90 @@
           ]
         }
       },
+      "EntregarOSEntregueResponse": {
+        "value": {
+          "id": 1,
+          "status": "ENTREGUE",
+          "clienteId": 1,
+          "clienteNomeSocial": "João Silva",
+          "clienteDocumento": "123.456.789-00",
+          "veiculoId": 1,
+          "veiculoPlaca": "ABC1D23",
+          "complexidade": "MEDIA",
+          "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
+          "tagChave": null,
+          "criadaEm": "2024-06-01T10:00:00",
+          "precoTotal": 600,
+          "historico": [
+            {
+              "status": "RECEBIDA",
+              "createdAt": "2024-06-01T10:00:00"
+            },
+            {
+              "status": "EM_DIAGNOSTICO",
+              "createdAt": "2024-06-01T11:30:00"
+            },
+            {
+              "status": "AGUARDANDO_APROVACAO",
+              "createdAt": "2024-06-01T14:00:00"
+            },
+            {
+              "status": "APROVADA",
+              "createdAt": "2024-06-01T15:30:00"
+            },
+            {
+              "status": "EM_EXECUCAO",
+              "createdAt": "2024-06-01T16:00:00"
+            },
+            {
+              "status": "FINALIZADA",
+              "createdAt": "2024-06-02T09:00:00"
+            },
+            {
+              "status": "ENTREGUE",
+              "createdAt": "2024-06-02T10:00:00"
+            }
+          ]
+        }
+      },
+      "EntregarOSDevolvidoResponse": {
+        "value": {
+          "id": 2,
+          "status": "DEVOLVIDO",
+          "clienteId": 1,
+          "clienteNomeSocial": "João Silva",
+          "clienteDocumento": "123.456.789-00",
+          "veiculoId": 1,
+          "veiculoPlaca": "ABC1D23",
+          "complexidade": "MEDIA",
+          "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
+          "tagChave": null,
+          "criadaEm": "2024-06-01T10:00:00",
+          "precoTotal": 810,
+          "historico": [
+            {
+              "status": "RECEBIDA",
+              "createdAt": "2024-06-01T10:00:00"
+            },
+            {
+              "status": "EM_DIAGNOSTICO",
+              "createdAt": "2024-06-01T11:30:00"
+            },
+            {
+              "status": "AGUARDANDO_APROVACAO",
+              "createdAt": "2024-06-01T14:00:00"
+            },
+            {
+              "status": "CANCELADA",
+              "createdAt": "2024-06-01T16:00:00"
+            },
+            {
+              "status": "DEVOLVIDO",
+              "createdAt": "2024-06-02T10:00:00"
+            }
+          ]
+        }
+      },
       "200ListOSResponse": {
         "value": {
           "content": [
@@ -25154,6 +25705,90 @@
             {
               "status": "CANCELADA",
               "createdAt": "2024-06-01T16:00:00"
+            }
+          ]
+        }
+      },
+      "200EntregarOSEntregueResponse": {
+        "value": {
+          "id": 1,
+          "status": "ENTREGUE",
+          "clienteId": 1,
+          "clienteNomeSocial": "João Silva",
+          "clienteDocumento": "123.456.789-00",
+          "veiculoId": 1,
+          "veiculoPlaca": "ABC1D23",
+          "complexidade": "MEDIA",
+          "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
+          "tagChave": null,
+          "criadaEm": "2024-06-01T10:00:00",
+          "precoTotal": 600,
+          "historico": [
+            {
+              "status": "RECEBIDA",
+              "createdAt": "2024-06-01T10:00:00"
+            },
+            {
+              "status": "EM_DIAGNOSTICO",
+              "createdAt": "2024-06-01T11:30:00"
+            },
+            {
+              "status": "AGUARDANDO_APROVACAO",
+              "createdAt": "2024-06-01T14:00:00"
+            },
+            {
+              "status": "APROVADA",
+              "createdAt": "2024-06-01T15:30:00"
+            },
+            {
+              "status": "EM_EXECUCAO",
+              "createdAt": "2024-06-01T16:00:00"
+            },
+            {
+              "status": "FINALIZADA",
+              "createdAt": "2024-06-02T09:00:00"
+            },
+            {
+              "status": "ENTREGUE",
+              "createdAt": "2024-06-02T10:00:00"
+            }
+          ]
+        }
+      },
+      "200EntregarOSDevolvidoResponse": {
+        "value": {
+          "id": 2,
+          "status": "DEVOLVIDO",
+          "clienteId": 1,
+          "clienteNomeSocial": "João Silva",
+          "clienteDocumento": "123.456.789-00",
+          "veiculoId": 1,
+          "veiculoPlaca": "ABC1D23",
+          "complexidade": "MEDIA",
+          "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
+          "tagChave": null,
+          "criadaEm": "2024-06-01T10:00:00",
+          "precoTotal": 810,
+          "historico": [
+            {
+              "status": "RECEBIDA",
+              "createdAt": "2024-06-01T10:00:00"
+            },
+            {
+              "status": "EM_DIAGNOSTICO",
+              "createdAt": "2024-06-01T11:30:00"
+            },
+            {
+              "status": "AGUARDANDO_APROVACAO",
+              "createdAt": "2024-06-01T14:00:00"
+            },
+            {
+              "status": "CANCELADA",
+              "createdAt": "2024-06-01T16:00:00"
+            },
+            {
+              "status": "DEVOLVIDO",
+              "createdAt": "2024-06-02T10:00:00"
             }
           ]
         }
