@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "API G52 Tech Challenge",
-    "description": "Test destroy resources\nLorem ipsum dolor sit amet, consectetur adipiscing elit.  \nSed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\n### Features\n\n- Fast and reliable\n- Secure endpoints\n- Easy integration\n\n### Example Table\n\n| Method | Endpoint   | Description           |\n|--------|------------|-----------------------|\n| GET    | /hello     | Returns hello world   |\n| POST   | /goodbye   | Says goodbye         |\n\n> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n>\n> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n",
+    "description": "API de gerenciamento de ordens de serviço para oficinas mecânicas. Permite controlar o ciclo de vida\ncompleto de uma OS — desde a abertura até a entrega do veículo — além de gerenciar clientes, veículos,\npeças, insumos e serviços cadastrados.\n\n---\n\n## Ciclo de vida de uma OS\n\nToda OS percorre um fluxo de status bem definido. As transições válidas são:\n\n| De | Para | Ação |\n|----|------|------|\n| `RECEBIDA` | `EM_DIAGNOSTICO` | Iniciar diagnóstico |\n| `EM_DIAGNOSTICO` | `AGUARDANDO_APROVACAO` | Solicitar aprovação — envia orçamento por e-mail ao cliente |\n| `AGUARDANDO_APROVACAO` | `APROVADA` | Cliente aprova o orçamento (total ou parcial) |\n| `APROVADA` | `EM_EXECUCAO` | Iniciar execução dos serviços |\n| `EM_EXECUCAO` | `FINALIZADA` | Finalizar execução — consome estoque real e libera reservas |\n| `FINALIZADA` | `ENTREGUE` | Entregar veículo — envia nota fiscal por e-mail e limpa tagChave |\n| `CANCELADA` | `DEVOLVIDO` | Devolver veículo fisicamente — limpa tagChave |\n| Qualquer status até `FINALIZADA` | `CANCELADA` | Cancelar OS — libera reservas de estoque |\n\n> `ENTREGUE` e `DEVOLVIDO` são status terminais — nenhuma transição é permitida a partir deles.\n\n---\n\n## Gestão de estoque\n\nO estoque de peças e insumos é controlado em duas camadas:\n\n- **Estoque reservado** (`estoqueReservado`): reservado ao adicionar serviços à OS. Liberado ao cancelar ou finalizar.\n- **Estoque real** (`estoque`): consumido definitivamente apenas na **finalização** da OS.\n\nAo **cancelar** uma OS, o comportamento de liberação depende do status atual:\n- Antes de `APROVADA` (RECEBIDA, EM_DIAGNOSTICO, AGUARDANDO_APROVACAO): libera a reserva de **todos** os serviços.\n- A partir de `APROVADA` (APROVADA, EM_EXECUCAO): libera apenas a reserva dos serviços **aprovados**.\n\n---\n\n## Aprovação do orçamento\n\nAo solicitar aprovação, o sistema:\n1. Altera o status para `AGUARDANDO_APROVACAO`.\n2. Gera o orçamento em PDF e envia ao cliente por e-mail (SMTP).\n3. Inclui no e-mail um link com token HMAC assinado — sem necessidade de login.\n\nO cliente seleciona os serviços que deseja aprovar e confirma. A aprovação pode ser total ou parcial.\n\n---\n\n## Recursos\n\n| Recurso | Descrição |\n|---------|-----------|\n| **Ordens de Serviço** | Ciclo de vida completo da OS |\n| **Clientes** | Cadastro e consulta de clientes |\n| **Veículos** | Cadastro de veículos vinculados a clientes |\n| **Peças** | Cadastro de peças com controle de estoque |\n| **Insumos** | Cadastro de insumos com controle de estoque |\n| **Serviços** | Catálogo de serviços oferecidos pela oficina |\n| **Estoque** | Entrada e saída de estoque por EAN (batch) |\n",
     "version": "1.0.0"
   },
   "servers": [
@@ -18,7 +18,7 @@
           "Ordens de Serviço"
         ],
         "summary": "Criar OS",
-        "description": "Endpoint para criar uma ordem de serviço\n",
+        "description": "Cria uma nova OS com status inicial `RECEBIDA`.\nCalcula automaticamente o preço total com base nos serviços desejados informados.\nReserva estoque das peças e insumos vinculados a cada serviço.\n",
         "operationId": "post/ordensDeServico",
         "parameters": [
           {
@@ -509,7 +509,7 @@
           "Ordens de Serviço"
         ],
         "summary": "Listar OS",
-        "description": "Endpoint para listagem paginada de ordens de serviço com filtros opcionais\n",
+        "description": "Retorna uma lista paginada de ordens de serviço.\nFiltros opcionais: `placa`, `documentoCliente`, `status`, `dataInicio`, `dataFim`.\n",
         "operationId": "get/ordensDeServico",
         "parameters": [
           {
@@ -975,7 +975,7 @@
           "Ordens de Serviço"
         ],
         "summary": "Consultar OS",
-        "description": "Endpoint para consulta de ordem de serviço por osId\n",
+        "description": "Retorna os detalhes completos de uma OS, incluindo serviços, peças, insumos e histórico de status.\n",
         "operationId": "get/ordensDeServico/{osId}",
         "parameters": [
           {
@@ -1743,7 +1743,7 @@
           "Ordens de Serviço"
         ],
         "summary": "Diagnosticar OS",
-        "description": "Endpoint para iniciar o diagnóstico de uma ordem de serviço, alterando seu status para EM_DIAGNOSTICO\n",
+        "description": "Inicia o diagnóstico da OS, alterando o status de `RECEBIDA` para `EM_DIAGNOSTICO`.\nA partir deste status é possível adicionar serviços necessários e adicionais identificados pelo mecânico.\n",
         "operationId": "post/ordensDeServico/{osId}/diagnosticar",
         "parameters": [
           {
@@ -2518,7 +2518,7 @@
           "Ordens de Serviço"
         ],
         "summary": "Adicionar serviços à OS",
-        "description": "Endpoint para adicionar serviços necessários e/ou adicionais a uma ordem de serviço\n",
+        "description": "Adiciona serviços necessários e/ou adicionais à OS durante o diagnóstico (`EM_DIAGNOSTICO`).\nCalcula o preço de cada serviço e reserva o estoque das peças e insumos envolvidos.\nO preço total da OS é recalculado após cada adição.\n",
         "operationId": "post/ordensDeServico/{osId}/adicionarServicos",
         "parameters": [
           {
@@ -5170,7 +5170,7 @@
           "Ordens de Serviço"
         ],
         "summary": "Iniciar execução da OS",
-        "description": "Inicia a execução da ordem de serviço alterando seu status para EM_EXECUCAO.\nSó é permitido a partir do status APROVADA.\n",
+        "description": "Inicia a execução da OS, alterando o status de `APROVADA` para `EM_EXECUCAO`.\nA partir deste ponto apenas os serviços aprovados serão executados.\n",
         "operationId": "post/ordensDeServico/{osId}/executar",
         "parameters": [
           {
@@ -6011,7 +6011,7 @@
           "Ordens de Serviço"
         ],
         "summary": "Finalizar OS",
-        "description": "Finaliza a ordem de serviço alterando seu status para FINALIZADA.\nConsome o estoque real (removerEstoque) e libera a reserva (removerEstoqueReservado) de todos os serviços aprovados.\nSó é permitido a partir do status EM_EXECUCAO.\n",
+        "description": "Finaliza a OS, alterando o status de `EM_EXECUCAO` para `FINALIZADA`.\nPara cada serviço aprovado: consome o estoque real (`estoque`) e libera a reserva (`estoqueReservado`) das peças e insumos.\nApós finalizar, a OS aguarda entrega física do veículo.\n",
         "operationId": "post/ordensDeServico/{osId}/finalizar",
         "parameters": [
           {
@@ -6856,7 +6856,7 @@
           "Ordens de Serviço"
         ],
         "summary": "Cancelar OS",
-        "description": "Cancela a ordem de serviço alterando seu status para CANCELADA.\nPara status anteriores a APROVADA (RECEBIDA, EM_DIAGNOSTICO, AGUARDANDO_APROVACAO), libera a reserva de estoque de todos os serviços.\nPara status a partir de APROVADA (APROVADA, EM_EXECUCAO, FINALIZADA), libera apenas a reserva dos serviços aprovados.\n",
+        "description": "Cancela a OS, alterando o status para `CANCELADA`.\nLibera o estoque reservado de acordo com o status atual:\n- **Antes de `APROVADA`** (RECEBIDA, EM_DIAGNOSTICO, AGUARDANDO_APROVACAO): libera a reserva de **todos** os serviços.\n- **A partir de `APROVADA`** (APROVADA, EM_EXECUCAO): libera apenas a reserva dos serviços **aprovados**.\n\nPara devolver o veículo fisicamente após o cancelamento, utilize o endpoint `/entregar`.\n",
         "operationId": "post/ordensDeServico/{osId}/cancelar",
         "parameters": [
           {
@@ -7264,7 +7264,7 @@
         "tags": [
           "Ordens de Serviço"
         ],
-        "summary": "Entregar ou devolver OS",
+        "summary": "Entregar OS",
         "description": "Dois comportamentos dependendo do status atual da OS:\n- **FINALIZADA** → altera para ENTREGUE, limpa a tagChave e envia nota fiscal por e-mail ao cliente.\n- **CANCELADA** → altera para DEVOLVIDO e limpa a tagChave. Nenhum e-mail é enviado.\n",
         "operationId": "post/ordensDeServico/{osId}/entregar",
         "parameters": [
@@ -7724,7 +7724,7 @@
           "Clientes"
         ],
         "summary": "Criar Cliente",
-        "description": "Endpoint para criar um cliente\n",
+        "description": "Cadastra um novo cliente. O documento (CPF ou CNPJ) deve ser único.\n",
         "operationId": "post/clientes",
         "parameters": [
           {
@@ -8151,7 +8151,7 @@
           "Clientes"
         ],
         "summary": "Listar Clientes",
-        "description": "Endpoint para listagem paginada de clientes\n",
+        "description": "Retorna a lista paginada de clientes cadastrados.\n",
         "operationId": "get/clientes",
         "parameters": [
           {
@@ -8608,7 +8608,7 @@
           "Clientes"
         ],
         "summary": "Atualizar Cliente",
-        "description": "Endpoint para atualizar um cliente\n",
+        "description": "Atualiza os dados cadastrais de um cliente.\n",
         "operationId": "put/clientes/{clienteId}",
         "parameters": [
           {
@@ -9043,7 +9043,7 @@
           "Clientes"
         ],
         "summary": "Consultar Cliente",
-        "description": "Endpoint para consulta de cliente por clienteId\n",
+        "description": "Retorna os dados de um cliente pelo seu identificador.\n",
         "operationId": "get/clientes/{clienteId}",
         "parameters": [
           {
@@ -9392,7 +9392,7 @@
           "Clientes"
         ],
         "summary": "Deletar Cliente",
-        "description": "Endpoint para deleção de cliente por clienteId\n",
+        "description": "Remove um cliente do sistema.\n",
         "operationId": "delete/clientes/{clienteId}",
         "parameters": [
           {
@@ -9653,7 +9653,7 @@
           "Clientes"
         ],
         "summary": "Consultar Cliente por documento",
-        "description": "Endpoint para consulta de cliente por documento\n",
+        "description": "Retorna os dados de um cliente pelo número de CPF ou CNPJ.\n",
         "operationId": "get/clientes/documento/{documento}",
         "parameters": [
           {
@@ -10004,7 +10004,7 @@
           "Veículos"
         ],
         "summary": "Criar Veículo",
-        "description": "Endpoint para criar um veículo\n",
+        "description": "Cadastra um novo veículo vinculado a um cliente. A placa deve ser única.\n",
         "operationId": "post/veiculos",
         "parameters": [
           {
@@ -10312,7 +10312,7 @@
           "Veículos"
         ],
         "summary": "Listar Veículos",
-        "description": "Endpoint para listagem paginada de Veículos\n",
+        "description": "Retorna a lista de veículos cadastrados, com filtro opcional por cliente.\n",
         "operationId": "get/clientes",
         "parameters": [
           {
@@ -10687,7 +10687,7 @@
           "Veículos"
         ],
         "summary": "Atualizar Veículo",
-        "description": "Endpoint para atualizar um veículo\n",
+        "description": "Atualiza os dados cadastrais de um veículo.\n",
         "operationId": "put/veiculos/{veiculoId}",
         "parameters": [
           {
@@ -11023,7 +11023,7 @@
           "Veículos"
         ],
         "summary": "Consultar Veículo",
-        "description": "Endpoint para consulta de veículos por veiculoId\n",
+        "description": "Retorna os dados de um veículo pelo seu identificador.\n",
         "operationId": "get/veiculos/{veiculoId}",
         "parameters": [
           {
@@ -11320,7 +11320,7 @@
           "Veículos"
         ],
         "summary": "Deletar Veículo",
-        "description": "Endpoint para deleção de um veículo por veiculoId\n",
+        "description": "Remove um veículo do sistema.\n",
         "operationId": "delete/veiculos/{veiculoId}",
         "parameters": [
           {
@@ -11581,7 +11581,7 @@
           "Veículos"
         ],
         "summary": "Consultar Veículo por placa",
-        "description": "Endpoint para consulta de veículos por placa\n",
+        "description": "Retorna os dados de um veículo pela placa.\n",
         "operationId": "get /veiculos/placa/{placa}",
         "parameters": [
           {
@@ -11880,7 +11880,7 @@
           "Peças"
         ],
         "summary": "Criar Peça",
-        "description": "Endpoint para criar uma peça\n",
+        "description": "Cadastra uma nova peça no catálogo. `sku` e `ean` devem ser únicos.\n",
         "operationId": "post/produtos/pecas",
         "parameters": [
           {
@@ -12423,7 +12423,7 @@
           "Peças"
         ],
         "summary": "Atualizar Peça",
-        "description": "Endpoint para atualizar uma peça\n",
+        "description": "Atualiza os dados cadastrais de uma peça. `sku` e `ean` devem permanecer únicos.\n",
         "operationId": "put/produtos/pecas/{pecaId}",
         "parameters": [
           {
@@ -12933,7 +12933,7 @@
           "Peças"
         ],
         "summary": "Consultar Peça",
-        "description": "Endpoint para consulta de peça por peçaId\n",
+        "description": "Retorna os dados de uma peça incluindo estoque atual, estoque reservado e aplicações de veículo.\n",
         "operationId": "get/produtos/pecas/{pecaId}",
         "parameters": [
           {
@@ -13343,7 +13343,7 @@
           "Peças"
         ],
         "summary": "Deletar Peça",
-        "description": "Endpoint para deleção de peça por pecaId\n",
+        "description": "Remove uma peça do catálogo. Não é permitido remover peças vinculadas a ordens de serviço ativas.\n",
         "operationId": "delete/produtos/pecas/{pecaId}",
         "parameters": [
           {
@@ -13604,7 +13604,7 @@
           "Insumos"
         ],
         "summary": "Criar Insumo",
-        "description": "Endpoint para criar um insumo\n",
+        "description": "Cadastra um novo insumo no catálogo. `sku` e `ean` devem ser únicos.\n",
         "operationId": "post/produtos/insumos",
         "parameters": [
           {
@@ -14113,7 +14113,7 @@
           "Insumos"
         ],
         "summary": "Atualizar Insumo",
-        "description": "Endpoint para atualizar um insumo\n",
+        "description": "Atualiza os dados cadastrais de um insumo. `sku` e `ean` devem permanecer únicos.\n",
         "operationId": "put/produtos/insumos/{insumoId}",
         "parameters": [
           {
@@ -14643,7 +14643,7 @@
           "Insumos"
         ],
         "summary": "Consultar Insumo",
-        "description": "Endpoint para consulta de insumo por insumoId\n",
+        "description": "Retorna os dados de um insumo incluindo estoque atual, estoque reservado e aplicações de veículo.\n",
         "operationId": "get/produtos/insumos/{insumoId}",
         "parameters": [
           {
@@ -15035,7 +15035,7 @@
           "Insumos"
         ],
         "summary": "Deletar Insumo",
-        "description": "Endpoint para deleção de insumo por insumoId\n",
+        "description": "Remove um insumo do catálogo. Não é permitido remover insumos vinculados a ordens de serviço ativas.\n",
         "operationId": "delete/produtos/insumos/{insumoId}",
         "parameters": [
           {
@@ -16016,7 +16016,7 @@
           "Serviços"
         ],
         "summary": "Criar Serviço",
-        "description": "Endpoint para criar um serviço\n",
+        "description": "Cadastra um novo serviço no catálogo, com suas horas técnicas e peças/insumos necessários por tipo de veículo.\n",
         "operationId": "post/servicos",
         "parameters": [
           {
@@ -16359,7 +16359,7 @@
           "Serviços"
         ],
         "summary": "Listar Serviços",
-        "description": "Endpoint para listagem paginada de serviços\n",
+        "description": "Retorna a lista completa de serviços cadastrados no catálogo.\n",
         "operationId": "get/servicos",
         "parameters": [
           {
@@ -16742,7 +16742,7 @@
           "Serviços"
         ],
         "summary": "Atualizar Serviço",
-        "description": "Endpoint para atualizar um serviço\n",
+        "description": "Atualiza os dados de um serviço, incluindo horas técnicas e peças/insumos por tipo de veículo.\n",
         "operationId": "put/servicos/{servicoId}",
         "parameters": [
           {
@@ -17133,7 +17133,7 @@
           "Serviços"
         ],
         "summary": "Consultar Serviço",
-        "description": "Endpoint para consulta de serviço por servicoId\n",
+        "description": "Retorna os dados de um serviço incluindo as peças e insumos necessários por tipo de veículo.\n",
         "operationId": "get/servicos/{servicoId}",
         "parameters": [
           {
@@ -17449,7 +17449,7 @@
           "Serviços"
         ],
         "summary": "Deletar Serviço",
-        "description": "Endpoint para deleção de serviço por servicoId\n",
+        "description": "Remove um serviço do catálogo.\n",
         "operationId": "delete/servicos/{servicoId}",
         "parameters": [
           {
