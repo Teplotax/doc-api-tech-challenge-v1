@@ -15290,6 +15290,726 @@
         "x-amazon-apigateway-request-validator": "params-only"
       }
     },
+    "/produtos/estoque/entrada": {
+      "post": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Entrada de estoque",
+        "description": "Registra entrada de estoque para um ou mais produtos identificados por EAN.\nA operação é transacional: se qualquer EAN não for encontrado, nenhuma alteração é persistida.\n",
+        "operationId": "post/produtos/estoque/entrada",
+        "parameters": [
+          {
+            "name": "x-correlationid",
+            "in": "header",
+            "description": "Código para identificar requisição",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "ean",
+                    "quantidade"
+                  ],
+                  "properties": {
+                    "ean": {
+                      "type": "string",
+                      "description": "Código EAN do produto"
+                    },
+                    "quantidade": {
+                      "type": "integer",
+                      "description": "Quantidade a movimentar",
+                      "minimum": 1
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "EstoqueMovimentacaoRequest": {
+                  "value": [
+                    {
+                      "ean": "7891342010177",
+                      "quantidade": 50
+                    },
+                    {
+                      "ean": "5011987860575",
+                      "quantidade": 50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Estoque atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "itens": {
+                      "type": "array",
+                      "description": "Produtos com estoque atualizado",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ean": {
+                            "type": "string",
+                            "description": "Código EAN do produto"
+                          },
+                          "nome": {
+                            "type": "string",
+                            "description": "Nome do produto"
+                          },
+                          "estoque": {
+                            "type": "integer",
+                            "description": "Estoque atual após a movimentação"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "EstoqueEntradaResponse": {
+                    "value": {
+                      "itens": [
+                        {
+                          "ean": "7891342010177",
+                          "nome": "Filtro de óleo",
+                          "estoque": 150
+                        },
+                        {
+                          "ean": "5011987860575",
+                          "nome": "Pastilha de freio",
+                          "estoque": 200
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "400": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "401": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "403": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Forbidden"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "404": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "405": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Method Not Allowed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "503": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Service Unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "timeoutInMillis": 14000,
+          "type": "http_proxy",
+          "httpMethod": "POST",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/produtos/estoque/entrada",
+          "responses": {
+            "default": {
+              "statusCode": "503"
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "connectionType": "VPC_LINK",
+          "connectionId": "txypyt",
+          "requestParameters": {
+            "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
+          }
+        },
+        "x-amazon-apigateway-request-validator": "params-only"
+      }
+    },
+    "/produtos/estoque/saida": {
+      "post": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Saída de estoque",
+        "description": "Registra saída de estoque para um ou mais produtos identificados por EAN.\nRetorna 422 se o estoque disponível for insuficiente para qualquer item da lista.\nA operação é transacional: se qualquer item falhar, nenhuma alteração é persistida.\n",
+        "operationId": "post/produtos/estoque/saida",
+        "parameters": [
+          {
+            "name": "x-correlationid",
+            "in": "header",
+            "description": "Código para identificar requisição",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "ean",
+                    "quantidade"
+                  ],
+                  "properties": {
+                    "ean": {
+                      "type": "string",
+                      "description": "Código EAN do produto"
+                    },
+                    "quantidade": {
+                      "type": "integer",
+                      "description": "Quantidade a movimentar",
+                      "minimum": 1
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "EstoqueMovimentacaoRequest": {
+                  "value": [
+                    {
+                      "ean": "7891342010177",
+                      "quantidade": 50
+                    },
+                    {
+                      "ean": "5011987860575",
+                      "quantidade": 50
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Estoque atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "itens": {
+                      "type": "array",
+                      "description": "Produtos com estoque atualizado",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "ean": {
+                            "type": "string",
+                            "description": "Código EAN do produto"
+                          },
+                          "nome": {
+                            "type": "string",
+                            "description": "Nome do produto"
+                          },
+                          "estoque": {
+                            "type": "integer",
+                            "description": "Estoque atual após a movimentação"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "EstoqueSaidaResponse": {
+                    "value": {
+                      "itens": [
+                        {
+                          "ean": "7891342010177",
+                          "nome": "Filtro de óleo",
+                          "estoque": 100
+                        },
+                        {
+                          "ean": "5011987860575",
+                          "nome": "Pastilha de freio",
+                          "estoque": 150
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "400": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "401": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "403": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Forbidden"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "404": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "405": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Method Not Allowed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "503": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Service Unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "timeoutInMillis": 14000,
+          "type": "http_proxy",
+          "httpMethod": "POST",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/produtos/estoque/saida",
+          "responses": {
+            "default": {
+              "statusCode": "503"
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "connectionType": "VPC_LINK",
+          "connectionId": "txypyt",
+          "requestParameters": {
+            "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
+          }
+        },
+        "x-amazon-apigateway-request-validator": "params-only"
+      }
+    },
     "/servicos": {
       "post": {
         "tags": [
@@ -18925,6 +19645,53 @@
                 "quantidade": {
                   "type": "integer",
                   "description": "Quantidade do insumo utilizada na aplicação"
+                }
+              }
+            }
+          }
+        }
+      },
+      "EstoqueMovimentacaoRequest": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "ean",
+            "quantidade"
+          ],
+          "properties": {
+            "ean": {
+              "type": "string",
+              "description": "Código EAN do produto"
+            },
+            "quantidade": {
+              "type": "integer",
+              "description": "Quantidade a movimentar",
+              "minimum": 1
+            }
+          }
+        }
+      },
+      "EstoqueMovimentacaoResponse": {
+        "type": "object",
+        "properties": {
+          "itens": {
+            "type": "array",
+            "description": "Produtos com estoque atualizado",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ean": {
+                  "type": "string",
+                  "description": "Código EAN do produto"
+                },
+                "nome": {
+                  "type": "string",
+                  "description": "Nome do produto"
+                },
+                "estoque": {
+                  "type": "integer",
+                  "description": "Estoque atual após a movimentação"
                 }
               }
             }
@@ -23518,6 +24285,50 @@
           ]
         }
       },
+      "EstoqueMovimentacaoRequest": {
+        "value": [
+          {
+            "ean": "7891342010177",
+            "quantidade": 50
+          },
+          {
+            "ean": "5011987860575",
+            "quantidade": 50
+          }
+        ]
+      },
+      "EstoqueEntradaResponse": {
+        "value": {
+          "itens": [
+            {
+              "ean": "7891342010177",
+              "nome": "Filtro de óleo",
+              "estoque": 150
+            },
+            {
+              "ean": "5011987860575",
+              "nome": "Pastilha de freio",
+              "estoque": 200
+            }
+          ]
+        }
+      },
+      "EstoqueSaidaResponse": {
+        "value": {
+          "itens": [
+            {
+              "ean": "7891342010177",
+              "nome": "Filtro de óleo",
+              "estoque": 100
+            },
+            {
+              "ean": "5011987860575",
+              "nome": "Pastilha de freio",
+              "estoque": 150
+            }
+          ]
+        }
+      },
       "FindServicoResponse": {
         "value": {
           "id": 1,
@@ -26125,6 +26936,38 @@
               "anoInicio": 2015,
               "anoFim": 2024,
               "quantidade": 4
+            }
+          ]
+        }
+      },
+      "200EstoqueEntradaResponse": {
+        "value": {
+          "itens": [
+            {
+              "ean": "7891342010177",
+              "nome": "Filtro de óleo",
+              "estoque": 150
+            },
+            {
+              "ean": "5011987860575",
+              "nome": "Pastilha de freio",
+              "estoque": 200
+            }
+          ]
+        }
+      },
+      "200EstoqueSaidaResponse": {
+        "value": {
+          "itens": [
+            {
+              "ean": "7891342010177",
+              "nome": "Filtro de óleo",
+              "estoque": 100
+            },
+            {
+              "ean": "5011987860575",
+              "nome": "Pastilha de freio",
+              "estoque": 150
             }
           ]
         }
