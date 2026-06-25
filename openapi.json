@@ -31,6 +31,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         ],
         "requestBody": {
@@ -428,6 +438,62 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -522,6 +588,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "placa",
@@ -829,34 +905,6 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "description": "Error message"
-                    },
-                    "exceptionType": {
-                      "type": "string",
-                      "description": "Exception type"
-                    }
-                  }
-                },
-                "examples": {
-                  "404": {
-                    "value": {
-                      "message": "Conteúdo da mensagem",
-                      "exceptionType": "Not Found"
-                    }
-                  }
-                }
-              }
-            }
-          },
           "405": {
             "description": "Method Not Allowed",
             "content": {
@@ -988,6 +1036,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "osId",
@@ -1756,6 +1814,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "osId",
@@ -2531,6 +2599,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "osId",
@@ -3389,6 +3467,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "osId",
@@ -5185,6 +5273,16 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
             "name": "osId",
             "in": "path",
             "description": "Identificador da ordem de serviço",
@@ -6024,6 +6122,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "osId",
@@ -6871,6 +6979,16 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
             "name": "osId",
             "in": "path",
             "description": "Identificador da ordem de serviço",
@@ -7278,6 +7396,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "osId",
@@ -7737,6 +7865,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         ],
         "requestBody": {
@@ -8070,6 +8208,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -8164,6 +8330,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "page",
@@ -8623,6 +8799,16 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
             "name": "clienteId",
             "in": "path",
             "description": "Identificador do cliente",
@@ -8961,6 +9147,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -9056,6 +9270,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "clienteId",
@@ -9407,6 +9631,16 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
             "name": "clienteId",
             "in": "path",
             "description": "Identificador do cliente",
@@ -9569,6 +9803,34 @@
               }
             }
           },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -9666,6 +9928,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "documento",
@@ -10017,6 +10289,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         ],
         "requestBody": {
@@ -10231,6 +10513,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -10325,6 +10635,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "page",
@@ -10546,34 +10866,6 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "description": "Error message"
-                    },
-                    "exceptionType": {
-                      "type": "string",
-                      "description": "Exception type"
-                    }
-                  }
-                },
-                "examples": {
-                  "404": {
-                    "value": {
-                      "message": "Conteúdo da mensagem",
-                      "exceptionType": "Not Found"
-                    }
-                  }
-                }
-              }
-            }
-          },
           "405": {
             "description": "Method Not Allowed",
             "content": {
@@ -10700,6 +10992,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "veiculoId",
@@ -10941,6 +11243,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -11036,6 +11366,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "veiculoId",
@@ -11335,6 +11675,16 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
             "name": "veiculoId",
             "in": "path",
             "description": "Identificador do veículo",
@@ -11497,6 +11847,34 @@
               }
             }
           },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -11594,6 +11972,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "placa",
@@ -11893,6 +12281,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         ],
         "requestBody": {
@@ -12340,6 +12738,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -12436,6 +12862,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "pecaId",
@@ -12851,6 +13287,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -12946,6 +13410,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "pecaId",
@@ -13358,6 +13832,16 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
             "name": "pecaId",
             "in": "path",
             "description": "Identificador da peça",
@@ -13520,6 +14004,34 @@
               }
             }
           },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -13617,6 +14129,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         ],
         "requestBody": {
@@ -14030,6 +14552,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -14126,6 +14676,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "insumoId",
@@ -14561,6 +15121,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -14656,6 +15244,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "insumoId",
@@ -15050,6 +15648,16 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
             "name": "insumoId",
             "in": "path",
             "description": "Identificador do insumo",
@@ -15068,6 +15676,351 @@
                 "description": "URI correspondente ao elemento atualizado",
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "400": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Bad Request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "401": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "403": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Forbidden"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "404": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "405": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Method Not Allowed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "503": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Service Unavailable"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "timeoutInMillis": 14000,
+          "type": "http_proxy",
+          "httpMethod": "DELETE",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/produtos/insumos/{insumoId}",
+          "responses": {
+            "default": {
+              "statusCode": "503"
+            }
+          },
+          "passthroughBehavior": "when_no_match",
+          "connectionType": "VPC_LINK",
+          "connectionId": "txypyt",
+          "requestParameters": {
+            "integration.request.path.insumoId": "method.request.path.insumoId",
+            "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
+          }
+        },
+        "x-amazon-apigateway-request-validator": "params-only"
+      }
+    },
+    "/produtos/ean/{ean}": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Consultar produto por EAN",
+        "description": "Retorna os dados de um produto pelo código EAN. Funciona para peças e insumos.\n",
+        "operationId": "get/produtos/ean/{ean}",
+        "parameters": [
+          {
+            "name": "x-correlationid",
+            "in": "header",
+            "description": "Código para identificar requisição",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            },
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "ean",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Código EAN do produto"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Identificador do produto"
+                    },
+                    "sku": {
+                      "type": "string",
+                      "description": "Código SKU do produto"
+                    },
+                    "ean": {
+                      "type": "string",
+                      "description": "Código EAN do produto"
+                    },
+                    "nome": {
+                      "type": "string",
+                      "description": "Nome do produto"
+                    },
+                    "tipoProduto": {
+                      "type": "string",
+                      "enum": [
+                        "PECA",
+                        "INSUMO"
+                      ],
+                      "description": "Tipo do produto"
+                    },
+                    "preco": {
+                      "type": "number",
+                      "format": "double",
+                      "description": "Preço unitário"
+                    },
+                    "estoque": {
+                      "type": "integer",
+                      "description": "Quantidade em estoque"
+                    },
+                    "estoqueReservado": {
+                      "type": "integer",
+                      "description": "Quantidade reservada para ordens em andamento"
+                    },
+                    "estoqueMinimo": {
+                      "type": "integer",
+                      "description": "Quantidade mínima em estoque"
+                    }
+                  }
+                },
+                "examples": {
+                  "FindProdutoByEanResponse": {
+                    "value": {
+                      "id": 1,
+                      "sku": "SKU-001",
+                      "ean": "7891342010177",
+                      "nome": "Filtro de Óleo Motor Universal",
+                      "tipoProduto": "PECA",
+                      "preco": 32.9,
+                      "estoque": 100,
+                      "estoqueReservado": 10,
+                      "estoqueMinimo": 5
+                    }
+                  }
                 }
               }
             }
@@ -15272,8 +16225,8 @@
         "x-amazon-apigateway-integration": {
           "timeoutInMillis": 14000,
           "type": "http_proxy",
-          "httpMethod": "DELETE",
-          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/produtos/insumos/{insumoId}",
+          "httpMethod": "GET",
+          "uri": "http://tech-challenge-lb-f602dac972c5f268.elb.sa-east-1.amazonaws.com:8080/produtos/ean/{ean}",
           "responses": {
             "default": {
               "statusCode": "503"
@@ -15283,7 +16236,7 @@
           "connectionType": "VPC_LINK",
           "connectionId": "txypyt",
           "requestParameters": {
-            "integration.request.path.insumoId": "method.request.path.insumoId",
+            "integration.request.path.ean": "method.request.path.ean",
             "integration.request.header.x-correlationid": "method.request.header.x-correlationid"
           }
         },
@@ -15309,6 +16262,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         ],
         "requestBody": {
@@ -15669,6 +16632,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         ],
         "requestBody": {
@@ -16029,6 +17002,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         ],
         "requestBody": {
@@ -16278,6 +17261,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -16372,6 +17383,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "page",
@@ -16601,34 +17622,6 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "description": "Error message"
-                    },
-                    "exceptionType": {
-                      "type": "string",
-                      "description": "Exception type"
-                    }
-                  }
-                },
-                "examples": {
-                  "404": {
-                    "value": {
-                      "message": "Conteúdo da mensagem",
-                      "exceptionType": "Not Found"
-                    }
-                  }
-                }
-              }
-            }
-          },
           "405": {
             "description": "Method Not Allowed",
             "content": {
@@ -16755,6 +17748,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "servicoId",
@@ -17051,6 +18054,34 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "409": {
+                    "value": {
+                      "message": "Já existe um registro com os dados informados",
+                      "exceptionType": "Conflict"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -17146,6 +18177,16 @@
               "minLength": 1
             },
             "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
           },
           {
             "name": "servicoId",
@@ -17464,6 +18505,16 @@
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
           {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Uso de Bearer token para Autorização da API",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          {
             "name": "servicoId",
             "in": "path",
             "description": "Identificador do serviço",
@@ -17626,6 +18677,34 @@
               }
             }
           },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    },
+                    "exceptionType": {
+                      "type": "string",
+                      "description": "Exception type"
+                    }
+                  }
+                },
+                "examples": {
+                  "422": {
+                    "value": {
+                      "message": "Conteúdo da mensagem",
+                      "exceptionType": "Unprocessable Entity"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -17717,6 +18796,16 @@
           "minLength": 1
         },
         "example": "123e4567-e89b-12d3-a456-426614174000"
+      },
+      "authorization": {
+        "name": "Authorization",
+        "in": "header",
+        "description": "Uso de Bearer token para Autorização da API",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "schemas": {
@@ -19669,6 +20758,52 @@
               "description": "Quantidade a movimentar",
               "minimum": 1
             }
+          }
+        }
+      },
+      "FindProdutoByEanResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Identificador do produto"
+          },
+          "sku": {
+            "type": "string",
+            "description": "Código SKU do produto"
+          },
+          "ean": {
+            "type": "string",
+            "description": "Código EAN do produto"
+          },
+          "nome": {
+            "type": "string",
+            "description": "Nome do produto"
+          },
+          "tipoProduto": {
+            "type": "string",
+            "enum": [
+              "PECA",
+              "INSUMO"
+            ],
+            "description": "Tipo do produto"
+          },
+          "preco": {
+            "type": "number",
+            "format": "double",
+            "description": "Preço unitário"
+          },
+          "estoque": {
+            "type": "integer",
+            "description": "Quantidade em estoque"
+          },
+          "estoqueReservado": {
+            "type": "integer",
+            "description": "Quantidade reservada para ordens em andamento"
+          },
+          "estoqueMinimo": {
+            "type": "integer",
+            "description": "Quantidade mínima em estoque"
           }
         }
       },
@@ -23794,6 +24929,12 @@
           "exceptionType": "Method Not Allowed"
         }
       },
+      "409": {
+        "value": {
+          "message": "Já existe um registro com os dados informados",
+          "exceptionType": "Conflict"
+        }
+      },
       "422": {
         "value": {
           "message": "Conteúdo da mensagem",
@@ -24311,6 +25452,19 @@
               "estoque": 200
             }
           ]
+        }
+      },
+      "FindProdutoByEanResponse": {
+        "value": {
+          "id": 1,
+          "sku": "SKU-001",
+          "ean": "7891342010177",
+          "nome": "Filtro de Óleo Motor Universal",
+          "tipoProduto": "PECA",
+          "preco": 32.9,
+          "estoque": 100,
+          "estoqueReservado": 10,
+          "estoqueMinimo": 5
         }
       },
       "EstoqueSaidaResponse": {
@@ -26940,6 +28094,19 @@
           ]
         }
       },
+      "200FindProdutoByEanResponse": {
+        "value": {
+          "id": 1,
+          "sku": "SKU-001",
+          "ean": "7891342010177",
+          "nome": "Filtro de Óleo Motor Universal",
+          "tipoProduto": "PECA",
+          "preco": 32.9,
+          "estoque": 100,
+          "estoqueReservado": 10,
+          "estoqueMinimo": 5
+        }
+      },
       "200EstoqueEntradaResponse": {
         "value": {
           "itens": [
@@ -27239,6 +28406,34 @@
                 "value": {
                   "message": "Conteúdo da mensagem",
                   "exceptionType": "Method Not Allowed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "Conflict",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Error message"
+                },
+                "exceptionType": {
+                  "type": "string",
+                  "description": "Exception type"
+                }
+              }
+            },
+            "examples": {
+              "409": {
+                "value": {
+                  "message": "Já existe um registro com os dados informados",
+                  "exceptionType": "Conflict"
                 }
               }
             }
