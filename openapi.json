@@ -49,20 +49,14 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "clienteId",
-                  "veiculoId",
+                  "placa",
+                  "tagChave",
                   "servicosDesejados"
                 ],
                 "properties": {
-                  "clienteId": {
-                    "type": "integer",
-                    "format": "int64",
-                    "description": "Identificador do cliente"
-                  },
-                  "veiculoId": {
-                    "type": "integer",
-                    "format": "int64",
-                    "description": "Identificador do veículo"
+                  "placa": {
+                    "type": "string",
+                    "description": "Placa do veículo"
                   },
                   "sintomas": {
                     "type": "string",
@@ -85,8 +79,7 @@
               "examples": {
                 "CreateOSRequest": {
                   "value": {
-                    "clienteId": 1,
-                    "veiculoId": 1,
+                    "placa": "ABC1D23",
                     "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
                     "tagChave": "001",
                     "servicosDesejados": [
@@ -21116,20 +21109,14 @@
       "CreateOSRequest": {
         "type": "object",
         "required": [
-          "clienteId",
-          "veiculoId",
+          "placa",
+          "tagChave",
           "servicosDesejados"
         ],
         "properties": {
-          "clienteId": {
-            "type": "integer",
-            "format": "int64",
-            "description": "Identificador do cliente"
-          },
-          "veiculoId": {
-            "type": "integer",
-            "format": "int64",
-            "description": "Identificador do veículo"
+          "placa": {
+            "type": "string",
+            "description": "Placa do veículo"
           },
           "sintomas": {
             "type": "string",
@@ -25620,8 +25607,7 @@
       },
       "CreateOSRequest": {
         "value": {
-          "clienteId": 1,
-          "veiculoId": 1,
+          "placa": "ABC1D23",
           "sintomas": "Barulho ao frear e vibração no volante em altas velocidades",
           "tagChave": "001",
           "servicosDesejados": [
