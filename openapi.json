@@ -568,7 +568,7 @@
           "Ordens de Serviço"
         ],
         "summary": "Listar OS",
-        "description": "Retorna uma lista paginada de ordens de serviço.\nFiltros opcionais: `placa`, `documentoCliente`, `status`, `dataInicio`, `dataFim`.\n",
+        "description": "Retorna uma lista paginada de ordens de serviço.\nFiltros opcionais: `placa`, `documentoCliente`, `status`, `complexidade`, `dataInicio`, `dataFim`.\n",
         "operationId": "get/ordensDeServico",
         "parameters": [
           {
@@ -627,6 +627,20 @@
                 "ENTREGUE",
                 "CANCELADA",
                 "DEVOLVIDO"
+              ]
+            }
+          },
+          {
+            "name": "complexidade",
+            "in": "query",
+            "description": "Complexidade da OS para filtrar",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "BAIXA",
+                "MEDIA",
+                "ALTA"
               ]
             }
           },
@@ -1000,6 +1014,7 @@
             "integration.request.querystring.placa": "method.request.querystring.placa",
             "integration.request.querystring.documentoCliente": "method.request.querystring.documentoCliente",
             "integration.request.querystring.status": "method.request.querystring.status",
+            "integration.request.querystring.complexidade": "method.request.querystring.complexidade",
             "integration.request.querystring.dataInicio": "method.request.querystring.dataInicio",
             "integration.request.querystring.dataFim": "method.request.querystring.dataFim",
             "integration.request.querystring.page": "method.request.querystring.page",
