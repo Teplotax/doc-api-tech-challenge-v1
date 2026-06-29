@@ -9308,6 +9308,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Identificador do cliente"
+                    },
                     "nomeSocial": {
                       "type": "string",
                       "description": "Nome pelo qual o cliente deseja ser identificado e tratado no convívio social, ou nome fantasia"
@@ -9380,6 +9384,7 @@
                   "FindClienteResponse": {
                     "summary": "Exemplo de resposta para consulta de um cliente",
                     "value": {
+                      "id": 1,
                       "nomeSocial": "Maria Oliveira",
                       "nome": "Marcos Antônio Oliveira",
                       "tipoDocumento": "CPF",
@@ -9966,6 +9971,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Identificador do cliente"
+                    },
                     "nomeSocial": {
                       "type": "string",
                       "description": "Nome pelo qual o cliente deseja ser identificado e tratado no convívio social, ou nome fantasia"
@@ -10038,6 +10047,7 @@
                   "FindClienteResponse": {
                     "summary": "Exemplo de resposta para consulta de um cliente",
                     "value": {
+                      "id": 1,
                       "nomeSocial": "Maria Oliveira",
                       "nome": "Marcos Antônio Oliveira",
                       "tipoDocumento": "CPF",
@@ -18820,6 +18830,10 @@
       "FindClienteResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Identificador do cliente"
+          },
           "nomeSocial": {
             "type": "string",
             "description": "Nome pelo qual o cliente deseja ser identificado e tratado no convívio social, ou nome fantasia"
@@ -24964,6 +24978,7 @@
       "FindClienteResponse": {
         "summary": "Exemplo de resposta para consulta de um cliente",
         "value": {
+          "id": 1,
           "nomeSocial": "Maria Oliveira",
           "nome": "Marcos Antônio Oliveira",
           "tipoDocumento": "CPF",
@@ -27870,6 +27885,7 @@
       "200FindClienteResponse": {
         "summary": "Exemplo de resposta para consulta de um cliente",
         "value": {
+          "id": 1,
           "nomeSocial": "Maria Oliveira",
           "nome": "Marcos Antônio Oliveira",
           "tipoDocumento": "CPF",
